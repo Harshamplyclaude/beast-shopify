@@ -14,32 +14,24 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "help": {
+        "support": {
           "type": "link_list",
           "settings": {
-            "heading": "Help",
-            "menu": "footer-help"
+            "heading": "Support",
+            "menu": "footer-support"
           }
         },
-        "services": {
+        "company": {
           "type": "link_list",
           "settings": {
-            "heading": "Services",
-            "menu": "footer-services"
-          }
-        },
-        "legal": {
-          "type": "link_list",
-          "settings": {
-            "heading": "Legal Area",
-            "menu": "footer-legal"
+            "heading": "Company",
+            "menu": "footer-company"
           }
         }
       },
       "block_order": [
-        "help",
-        "services",
-        "legal"
+        "support",
+        "company"
       ],
       "settings": {
         "color_scheme": "scheme-3",

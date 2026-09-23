@@ -34,7 +34,7 @@
             "image_mobile_asset": "beast-hero-2-mobile.webp",
             "slot_label": "Hero 2 — kids collection",
             "eyebrow": "",
-            "heading": "Beast mode,\nkid sized",
+            "heading": "Beast mode",
             "text": "Soft cotton that holds up to the school week.",
             "link_label": "Kids",
             "link": "/collections/kids",
@@ -167,28 +167,7 @@
         "padding_top": 72,
         "padding_bottom": 72
       }
-    },
-    "benefits": {
-      "type": "beast-feature",
-      "blocks": {
-        "b1": {"type": "fact", "settings": {"fact": "100% cotton single jersey — holds its shape, light in Indian weather"}},
-        "b2": {"type": "fact", "settings": {"fact": "Classic fit — straight body, crew neck, easy to move in"}},
-        "b3": {"type": "fact", "settings": {"fact": "High-density and DTF printing — raised finishes you can feel"}},
-        "b4": {"type": "fact", "settings": {"fact": "Beast details — a woven signature label at the hem"}}
-      },
-      "block_order": ["b1", "b2", "b3", "b4"],
-      "settings": {
-        "panel_colour": "black",
-        "heading": "Made For The Fit.",
-        "text": "<p>Fun on the front, serious underneath. Every tee in the range is built to the same standard.</p>",
-        "image_asset": "beast-hero-3-desktop.webp",
-        "link_label": "See the range",
-        "link": "/collections/all",
-        "reverse": true,
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
     }
   },
-  "order": ["hero", "trust", "chips", "trending", "benefits", "spotlight", "band", "feature", "rating"]
+  "order": ["hero", "trust", "chips", "trending", "spotlight", "band", "feature", "rating"]
 }
