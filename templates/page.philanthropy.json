@@ -81,7 +81,7 @@
         "image_ratio": "adapt",
         "button_label": "",
         "button_link": "",
-        "columns_desktop": 4,
+        "columns_desktop": 2,
         "column_alignment": "left",
         "background_style": "primary",
         "color_scheme": "scheme-1",

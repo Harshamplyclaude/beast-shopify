@@ -127,20 +127,26 @@
     h.style.whiteSpace = '';
     if (!h.offsetWidth) return;
     var base = parseFloat(getComputedStyle(h).fontSize);
-    h.style.whiteSpace = 'nowrap';
-    // Measure against the parent's content box: in a flex column a nowrap
-    // heading grows to its text, so its own width can't be trusted.
+    // Measure the room first, while the heading still wraps: once it is
+    // nowrap, grid tracks and flex columns stretch to fit it.
     var box = h.parentElement;
     var bs = getComputedStyle(box);
     var avail = box.clientWidth - parseFloat(bs.paddingLeft) - parseFloat(bs.paddingRight);
     var mw = getComputedStyle(h).maxWidth;
     if (/px$/.test(mw)) avail = Math.min(avail, parseFloat(mw));
+    h.style.whiteSpace = 'nowrap';
     var need = h.scrollWidth;
     if (need <= avail + 1) { h.style.whiteSpace = ''; return; }
-    var size = Math.floor(base * avail / need * 10) / 10;
     var floor = Math.max(14, base * 0.45);
-    if (size < floor) { h.style.whiteSpace = ''; h.style.fontSize = floor + 'px'; return; }
-    h.style.fontSize = size + 'px';
+    var size = Math.floor(base * avail / need * 10) / 10;
+    // Letter-spacing and padding don't scale exactly, so step down to fit.
+    for (var i = 0; i < 12 && size >= floor; i++) {
+      h.style.fontSize = size + 'px';
+      if (h.scrollWidth <= avail + 1) return;
+      size = Math.floor(size * 0.97 * 10) / 10;
+    }
+    h.style.fontSize = floor + 'px';
+    h.style.whiteSpace = '';
   }
 
   var fitObserver = 'ResizeObserver' in window ? new ResizeObserver(function (entries) {
