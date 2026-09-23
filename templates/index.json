@@ -114,7 +114,7 @@
       "type": "beast-trust-strip",
       "blocks": {
         "tb1": {"type": "promise", "settings": {"icon": "icon-box", "label": "Free shipping ₹999+", "link": "/pages/shipping"}},
-        "tb2": {"type": "promise", "settings": {"icon": "icon-return", "label": "30-day returns", "link": "/pages/returns-exchanges"}},
+        "tb2": {"type": "promise", "settings": {"icon": "icon-return", "label": "30-day exchanges", "link": "/pages/returns-exchanges"}},
         "tb3": {"type": "promise", "settings": {"icon": "icon-heart", "label": "1% donated", "link": "/pages/about"}}
       },
       "block_order": ["tb1", "tb2", "tb3"],
