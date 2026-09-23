@@ -65,7 +65,9 @@ class CartItems extends window.StandardEvents.createViewEventElement(HTMLElement
   }
 
   resetQuantityInput(id) {
-    const input = this.querySelector(`#Quantity-${id}`);
+    // The cart page uses #Quantity-N and the cart drawer #Drawer-quantity-N.
+    const input = this.querySelector(`#Quantity-${id}`) || this.querySelector(`#Drawer-quantity-${id}`);
+    if (!input) return;
     input.value = input.getAttribute('value');
     this.isEnterPressed = false;
   }
@@ -75,12 +77,22 @@ class CartItems extends window.StandardEvents.createViewEventElement(HTMLElement
     event.target.reportValidity();
     this.resetQuantityInput(index);
     event.target.select();
+    // The value has been put back, so the message no longer applies. Left set,
+    // it makes the browser refuse to submit the form the Checkout button uses.
+    event.target.setCustomValidity('');
   }
 
   validateQuantity(event) {
     const inputValue = parseInt(event.target.value);
     const index = event.target.dataset.index;
     let message = '';
+
+    // Typing 0 removes the line, the same as the remove button.
+    if (inputValue === 0) {
+      event.target.setCustomValidity('');
+      this.updateQuantity(index, 0, event, document.activeElement.getAttribute('name'), event.target.dataset.quantityVariantId);
+      return;
+    }
 
     if (inputValue < event.target.dataset.min) {
       message = window.quickOrderListStrings.min_error.replace('[min]', event.target.dataset.min);

@@ -10,8 +10,8 @@
      Subheads   Transducer Bold / Medium
      Body       Work Sans Regular (14-48px)
    Monument Extended and Transducer are licensed faces and are NOT bundled.
-   Drop the .woff2 files into assets/ and the @font-face rules below take over;
-   until then each stack falls back to the closest free face.
+   Until the .woff2 files are added (with @font-face rules for them), each
+   stack falls back to the closest free face.
    ========================================================================== */
 
 :root {
@@ -31,18 +31,9 @@
   --beast-ease: cubic-bezier(.2, .7, .3, 1);
 }
 
-@font-face {
-  font-family: "Monument Extended"; font-weight: 800; font-style: normal; font-display: swap;
-  src: url("MonumentExtended-Ultrabold.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Transducer"; font-weight: 700; font-style: normal; font-display: swap;
-  src: url("Transducer-Bold.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Transducer"; font-weight: 500; font-style: normal; font-display: swap;
-  src: url("Transducer-Medium.woff2") format("woff2");
-}
+/* The licensed Monument Extended / Transducer files aren't in assets/ yet, so
+   no @font-face points at them: rules for missing files cost three 404s on
+   every page. Add the .woff2 files and their @font-face rules together. */
 
 /* --- headline ladder ------------------------------------------------------ */
 h1, h2, h3, h4, h5,
@@ -113,7 +104,9 @@ h1, h2, h3, h4, h5,
 }
 .header__menu-item:hover span,
 .header__active-menu-item { color: var(--beast-magenta); text-decoration: none; }
-.header__heading-logo { max-height: 40px; width: auto; }
+/* The header outputs an inline width from settings.logo_width, which beats the
+   width:auto here, so the 40px cap squashed the logo; contain keeps its shape. */
+.header__heading-logo { max-height: 40px; width: auto; object-fit: contain; }
 .header__icon:not(.header__icon--cart) .icon { width: 21px; height: 21px; }
 .cart-count-bubble { background: var(--beast-magenta); color: var(--beast-white); border-radius: 999px; }
 
@@ -168,7 +161,9 @@ h1, h2, h3, h4, h5,
 .beast-swatch--more { font-size: 11px; color: rgba(var(--color-foreground), .5); }
 
 /* --- custom section: hero ------------------------------------------------- */
-.beast-hero { position: relative; background: #0b0b0b; overflow: hidden; }
+/* isolation keeps the slider's z-indexed arrows and dots from painting over the
+   sticky header rows when the page scrolls under them. */
+.beast-hero { position: relative; background: #0b0b0b; overflow: hidden; isolation: isolate; }
 .beast-hero__slide { position: relative; display: none; }
 .beast-hero__slide.is-active { display: block; }
 .beast-hero__media { position: relative; aspect-ratio: 16 / 6.4; }
@@ -326,7 +321,7 @@ h1, h2, h3, h4, h5,
 .beast-card__label svg { width: 15px; height: 15px; flex: none; }
 
 /* --- custom section: carousel --------------------------------------------- */
-.beast-carousel { position: relative; }
+.beast-carousel { position: relative; isolation: isolate; }
 .beast-carousel__track {
   /* No minmax() here: a 0 minimum lets the tracks collapse and crams every
      card into one screen instead of overflowing into a scroller. */
@@ -797,7 +792,9 @@ a.beast-trust-strip__label:hover { color: var(--beast-magenta); }
     display: block;
     position: sticky;
     top: var(--header-height, 0px);
-    z-index: 3;
+    /* One below the header (z-index 3), so the header's mega menu and search
+       dropdown, which hang below the bar, paint over this row. */
+    z-index: 2;
   }
 }
 .beast-subnav {
