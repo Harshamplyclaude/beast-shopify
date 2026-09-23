@@ -36,6 +36,16 @@
       display: contents;
     }
   }
+
+  /* Dawn lays the newsletter column out as a row, which put the Socialize
+     block beside the email field instead of under it. */
+  @media screen and (min-width: 750px) {
+    .footer .footer-block--newsletter {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+  }
 {%- endstyle -%}
 
 <footer class="footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
