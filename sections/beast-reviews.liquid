@@ -1,0 +1,87 @@
+{%- comment -%}
+  Beast reviews — static testimonial cards driven by theme blocks.
+  Swap for a real review app section once one is installed; the ratings here
+  are whatever the merchant types in, not aggregated data.
+{%- endcomment -%}
+<div class="color-{{ section.settings.color_scheme }} isolate">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="beast-head">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="h1">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p>{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="beast-reviews">
+      {%- for block in section.blocks -%}
+        <div class="beast-review" {{ block.shopify_attributes }}>
+          <div class="beast-stars" aria-label="{{ block.settings.stars }} out of 5">
+            {%- for i in (1..block.settings.stars) -%}
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.6 7.7l5.8-.8z"/>
+              </svg>
+            {%- endfor -%}
+          </div>
+          {%- if block.settings.title != blank -%}
+            <h3 class="beast-sub" style="font-size:14px;text-transform:uppercase">
+              {{- block.settings.title | escape -}}
+            </h3>
+          {%- endif -%}
+          <p class="beast-review__body">{{ block.settings.text | escape }}</p>
+          <p class="beast-review__by">{{ block.settings.author | escape }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="beast-actions">
+        <a href="{{ section.settings.button_link | default: '#' }}" class="button button--secondary">
+          {{- section.settings.button_label | escape -}}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Beast reviews",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Reviews" },
+    { "type": "text", "id": "subheading", "label": "Subheading" },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px",
+      "label": "Top padding", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px",
+      "label": "Bottom padding", "default": 64 }
+  ],
+  "blocks": [
+    { "type": "review", "name": "Review", "limit": 8, "settings": [
+      { "type": "range", "id": "stars", "min": 1, "max": 5, "step": 1, "label": "Stars", "default": 5 },
+      { "type": "text", "id": "title", "label": "Title" },
+      { "type": "textarea", "id": "text", "label": "Review" },
+      { "type": "text", "id": "author", "label": "Author" }
+    ] }
+  ],
+  "presets": [ { "name": "Beast reviews",
+    "blocks": [ { "type": "review" }, { "type": "review" }, { "type": "review" }, { "type": "review" } ] } ]
+}
+{% endschema %}

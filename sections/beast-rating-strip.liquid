@@ -1,0 +1,238 @@
+{%- comment -%}
+  Beast rating strip — "N Average Star Rating" over a row of review cards.
+
+  The headline figure is COMPUTED from the real review metafields that review
+  apps (Judge.me here) write to each product, so it can never drift from what
+  the store actually has. If no product carries a rating yet, the whole section
+  renders nothing rather than showing a placeholder score.
+{%- endcomment -%}
+{%- liquid
+  assign score_sum = 0
+  assign rating_count = 0
+  for p in collections.all.products limit: 250
+    assign rc = p.metafields.reviews.rating_count.value | plus: 0
+    assign rv = p.metafields.reviews.rating.value.rating
+    comment
+      Count a product only when BOTH the score and the count are published. The
+      review app writes rating_count first, so counting on that alone averages
+      real counts against a blank score and renders "0 Average Star Rating".
+    endcomment
+    if rc > 0 and rv != blank
+      assign r = rv | times: 1.0
+      assign score_sum = r | times: rc | plus: score_sum
+      assign rating_count = rc | plus: rating_count
+    endif
+  endfor
+
+  assign has_live = false
+  if rating_count > 0 and score_sum > 0
+    assign avg = score_sum | divided_by: rating_count | round: 1
+    assign has_live = true
+  endif
+
+  if section.settings.rating_override != blank and section.settings.count_override > 0
+    assign avg = section.settings.rating_override
+    assign rating_count = section.settings.count_override
+    assign has_live = true
+  endif
+-%}
+{%- if has_live or section.blocks.size > 0 -%}
+  <div
+    class="beast-rating section-{{ section.id }}-padding"
+    style="--beast-rating-bg: {{ section.settings.bg_colour }}; --beast-rating-card: {{ section.settings.card_colour }}; --beast-rating-star: {{ section.settings.star_colour }};"
+  >
+    <div class="page-width">
+      <div class="beast-rating__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="beast-rating__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if has_live -%}
+          <h2 class="beast-rating__score">
+            {{ avg }} {{ section.settings.score_suffix | escape }}
+          </h2>
+          {%- if section.settings.subtext != blank -%}
+            <p class="beast-rating__sub">
+              {{- section.settings.subtext | replace: '[COUNT]', rating_count -}}
+            </p>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="beast-rating__cards" role="list">
+          {%- for block in section.blocks -%}
+            {%- if block.settings.body != blank or block.settings.title != blank -%}
+              <li class="beast-rating__card" {{ block.shopify_attributes }}>
+                {%- if block.settings.title != blank -%}
+                  <h3 class="beast-rating__card-title">{{ block.settings.title | escape }}</h3>
+                {%- endif -%}
+                <div class="beast-rating__stars" role="img" aria-label="{{ block.settings.stars }} out of 5 stars">
+                  {%- for i in (1..block.settings.stars) -%}
+                    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" focusable="false">
+                      <path d="M10 1.6l2.47 5.36 5.86.7-4.33 4 1.16 5.79L10 14.6l-5.16 2.85L6 11.66l-4.33-4 5.86-.7z"/>
+                    </svg>
+                  {%- endfor -%}
+                </div>
+                {%- if block.settings.body != blank -%}
+                  <p class="beast-rating__card-body">{{ block.settings.body | escape }}</p>
+                {%- endif -%}
+                {%- if block.settings.name != blank -%}
+                  <p class="beast-rating__card-by">
+                    {{ block.settings.name | escape }}
+                    {%- if block.settings.verified -%}
+                      <span class="beast-rating__verified" aria-hidden="true">
+                        <svg viewBox="0 0 20 20" focusable="false">
+                          <circle cx="10" cy="10" r="10" fill="#2bab5a"/>
+                          <path d="M5.6 10.3l2.8 2.8 6-6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                    {%- endif -%}
+                  </p>
+                {%- endif -%}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Beast rating strip",
+  "tag": "section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Loved by fans"
+    },
+    {
+      "type": "text",
+      "id": "score_suffix",
+      "label": "Text after the score",
+      "default": "Average Star Rating"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Sub-line",
+      "info": "Use [COUNT] for the live review count.",
+      "default": "Based on [COUNT] reviews from verified buyers."
+    },
+    {
+      "type": "header",
+      "content": "Score source"
+    },
+    {
+      "type": "paragraph",
+      "content": "The score and count are read from your review app's product ratings. Only fill the overrides below if your app does not publish them, and only with the real figures from its dashboard."
+    },
+    {
+      "type": "text",
+      "id": "rating_override",
+      "label": "Rating override"
+    },
+    {
+      "type": "number",
+      "id": "count_override",
+      "label": "Review count override"
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "bg_colour",
+      "label": "Background",
+      "default": "#ebece7"
+    },
+    {
+      "type": "color",
+      "id": "card_colour",
+      "label": "Card",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "star_colour",
+      "label": "Stars",
+      "default": "#00bce7"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 24, "max": 140, "step": 4, "unit": "px",
+      "label": "Padding top",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 24, "max": 140, "step": 4, "unit": "px",
+      "label": "Padding bottom",
+      "default": 72
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Paste a real review. Leave the card empty until you have one."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Headline"
+        },
+        {
+          "type": "range",
+          "id": "stars",
+          "min": 1, "max": 5, "step": 1,
+          "label": "Stars",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Review"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Reviewer"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Verified buyer",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Beast rating strip" }
+  ]
+}
+{% endschema %}

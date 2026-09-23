@@ -1,0 +1,64 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "help": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Help",
+            "menu": "footer-help"
+          }
+        },
+        "services": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Services",
+            "menu": "footer-services"
+          }
+        },
+        "legal": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Legal Area",
+            "menu": "footer-legal"
+          }
+        }
+      },
+      "block_order": [
+        "help",
+        "services",
+        "legal"
+      ],
+      "settings": {
+        "color_scheme": "scheme-3",
+        "newsletter_enable": true,
+        "newsletter_heading": "Keep in touch",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 52,
+        "padding_bottom": 36,
+        "payment_heading": "Secure checkout by Razorpay"
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

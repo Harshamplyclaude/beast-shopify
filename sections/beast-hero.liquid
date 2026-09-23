@@ -1,0 +1,273 @@
+{%- comment -%}
+  Beast hero — full-bleed banner slider.
+  Each slide is a block. A slide with no image renders a visible "slot"
+  placeholder naming the required artwork size, so the layout is reviewable
+  before the banner files land.
+{%- endcomment -%}
+
+<style>
+  /* Desktop: the banner box takes the artwork's own shape instead of the fixed
+     2.5:1 box in beast.css, which cut ~30% off the top and bottom of the 16:9
+     banners. Phones and empty slots keep the fixed ratios from beast.css. */
+  @media screen and (min-width: 750px) {
+    .beast-hero__media:has(.beast-hero__img--desktop) { aspect-ratio: auto; }
+    .beast-hero__media:has(.beast-hero__img--desktop) .beast-hero__img--desktop { height: auto; }
+  }
+</style>
+
+<div
+  class="beast-hero"
+  data-beast-hero
+  data-autoplay="{{ section.settings.autoplay }}"
+  data-interval="{{ section.settings.interval | times: 1000 }}"
+>
+  {%- for block in section.blocks -%}
+    <div
+      class="beast-hero__slide{% if forloop.first %} is-active{% endif %}"
+      data-slide
+      {{ block.shopify_attributes }}
+    >
+      <div class="beast-hero__media">
+        {%- liquid
+          assign has_desktop = false
+          assign has_mobile  = false
+          if block.settings.image != blank or block.settings.image_asset != blank
+            assign has_desktop = true
+          endif
+          if block.settings.image_mobile != blank or block.settings.image_mobile_asset != blank
+            assign has_mobile = true
+          endif
+        -%}
+
+        {%- if has_desktop -%}
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 3000
+              | image_tag:
+                class: 'beast-hero__img beast-hero__img--desktop',
+                loading: forloop.first | default: false | ternary: 'eager', 'lazy',
+                fetchpriority: forloop.first | default: false | ternary: 'high', 'auto',
+                sizes: '100vw',
+                widths: '750, 1100, 1500, 1900, 2400, 3000',
+                alt: block.settings.image.alt | default: block.settings.heading | strip_html
+            }}
+          {%- else -%}
+            <img
+              src="{{ block.settings.image_asset | asset_url }}"
+              class="beast-hero__img beast-hero__img--desktop"
+              alt="{{ block.settings.heading | strip_html | escape }}"
+              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+              fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}"
+              width="2000" height="1125"
+            >
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- if has_mobile -%}
+          {%- if block.settings.image_mobile != blank -%}
+            {{
+              block.settings.image_mobile
+              | image_url: width: 1400
+              | image_tag:
+                class: 'beast-hero__img beast-hero__img--mobile',
+                loading: forloop.first | default: false | ternary: 'eager', 'lazy',
+                sizes: '100vw',
+                widths: '450, 660, 900, 1125, 1400',
+                alt: block.settings.image_mobile.alt | default: block.settings.heading | strip_html
+            }}
+          {%- else -%}
+            <img
+              src="{{ block.settings.image_mobile_asset | asset_url }}"
+              class="beast-hero__img beast-hero__img--mobile"
+              alt="{{ block.settings.heading | strip_html | escape }}"
+              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+              width="1125" height="2000"
+            >
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- unless has_desktop or has_mobile -%}
+          <div class="beast-slot">
+            <b>Banner slot</b>
+            <span>{{ block.settings.slot_label | default: 'Drop artwork here' }}</span>
+            <span style="opacity:.6">2000 &times; 1125 desktop &middot; 1125 &times; 2000 mobile</span>
+          </div>
+        {%- endunless -%}
+      </div>
+
+      <div class="beast-hero__content beast-hero__content--{{ block.settings.align }}">
+        {%- if block.settings.eyebrow != blank -%}
+          <p class="beast-eyebrow beast-hero__eyebrow">{{ block.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if block.settings.heading != blank -%}
+          <h2 class="h0 beast-hero__title">{{ block.settings.heading | newline_to_br }}</h2>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+          <p class="beast-hero__text">{{ block.settings.text | escape }}</p>
+        {%- endif -%}
+        {%- if block.settings.link_label != blank -%}
+          <a
+            href="{{ block.settings.link | default: '#' }}"
+            class="button{% if block.settings.button_style == 'cyan' %} button--secondary{% endif %}"
+          >
+            {{- block.settings.link_label | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+
+  {%- if section.blocks.size > 1 -%}
+    <button class="beast-hero__arrow beast-hero__arrow--prev" data-prev aria-label="{{ 'general.slider.previous_slide' | t }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button class="beast-hero__arrow beast-hero__arrow--next" data-next aria-label="{{ 'general.slider.next_slide' | t }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <div class="beast-hero__dots" role="tablist">
+      {%- for block in section.blocks -%}
+        <button
+          class="beast-hero__dot{% if forloop.first %} is-active{% endif %}"
+          data-dot
+          role="tab"
+          aria-label="{{ 'general.slider.name' | t }} {{ forloop.index }}"
+        ></button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Beast hero",
+  "tag": "section",
+  "class": "beast-hero-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "interval",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "label": "Seconds per slide",
+      "default": 6
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Desktop image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile image"
+        },
+        {
+          "type": "text",
+          "id": "image_asset",
+          "label": "Desktop image — theme asset",
+          "info": "Filename in assets/, e.g. beast-hero-1-desktop.jpg. Used only when no Desktop image is picked above."
+        },
+        {
+          "type": "text",
+          "id": "image_mobile_asset",
+          "label": "Mobile image — theme asset",
+          "info": "Filename in assets/, e.g. beast-hero-1-mobile.jpg. Used only when no Mobile image is picked above."
+        },
+        {
+          "type": "text",
+          "id": "slot_label",
+          "label": "Empty-slot label",
+          "info": "Shown only while no image is set."
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow"
+        },
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading",
+          "info": "Set in Monument Extended Ultrabold. Always renders in caps."
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Body text"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "solid",
+              "label": "Solid"
+            },
+            {
+              "value": "cyan",
+              "label": "Outline"
+            }
+          ],
+          "default": "solid"
+        },
+        {
+          "type": "select",
+          "id": "align",
+          "label": "Content alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Centre"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Beast hero",
+      "blocks": [
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

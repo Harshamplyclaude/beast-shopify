@@ -1,0 +1,133 @@
+{%- comment -%}
+  Beast trust strip — icon + short promise, sits directly under the hero.
+  Icons are Dawn's own stroke SVGs, inlined so they take currentColor.
+{%- endcomment -%}
+<div class="color-{{ section.settings.color_scheme }} isolate">
+  <div class="beast-trust-strip{% if section.settings.show_dividers %} beast-trust-strip--dividers{% endif %}{% if section.settings.show_bottom_border %} beast-trust-strip--rule{% endif %} section-{{ section.id }}-padding">
+    <div class="page-width">
+      <ul class="beast-trust-strip__row" role="list">
+        {%- for block in section.blocks -%}
+          <li class="beast-trust-strip__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != 'none' -%}
+              <span class="beast-trust-strip__icon" aria-hidden="true">
+                {{- block.settings.icon | append: '.svg' | inline_asset_content -}}
+              </span>
+            {%- endif -%}
+            {%- if block.settings.link != blank -%}
+              <a class="beast-trust-strip__label" href="{{ block.settings.link }}">
+                {{- block.settings.label | escape -}}
+              </a>
+            {%- else -%}
+              <span class="beast-trust-strip__label">{{ block.settings.label | escape }}</span>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Beast trust strip",
+  "tag": "section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_dividers",
+      "label": "Show dividers between items",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bottom_border",
+      "label": "Show a rule under the strip",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0, "max": 80, "step": 4, "unit": "px",
+      "label": "Padding top",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0, "max": 80, "step": 4, "unit": "px",
+      "label": "Padding bottom",
+      "default": 28
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promise",
+      "name": "Promise",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "icon-box", "label": "Box" },
+            { "value": "icon-truck", "label": "Truck" },
+            { "value": "icon-plane", "label": "Plane" },
+            { "value": "icon-return", "label": "Return" },
+            { "value": "icon-check-mark", "label": "Check mark" },
+            { "value": "icon-shirt", "label": "Shirt" },
+            { "value": "icon-ruler", "label": "Ruler" },
+            { "value": "icon-lock", "label": "Lock" },
+            { "value": "icon-heart", "label": "Heart" },
+            { "value": "icon-lightning-bolt", "label": "Lightning bolt" },
+            { "value": "icon-star", "label": "Star" }
+          ],
+          "default": "icon-box"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Free ship"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Optional. Leave blank for plain text."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Beast trust strip",
+      "blocks": [
+        { "type": "promise" },
+        { "type": "promise" },
+        { "type": "promise" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,104 @@
+{%- comment -%} Beast band — image + statement block used for the brand/mission strip. {%- endcomment -%}
+<div class="color-{{ section.settings.color_scheme }} isolate">
+  <div class="beast-band{% if section.settings.reverse %} beast-band--reverse{% endif %}">
+    <div class="beast-band__grid">
+      <div class="beast-band__media">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 1800
+            | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 52vw, 100vw',
+              widths: '600, 900, 1200, 1800',
+              alt: section.settings.image.alt | default: section.settings.heading
+          }}
+        {%- elsif section.settings.image_asset != blank -%}
+          <img
+            src="{{ section.settings.image_asset | asset_url }}"
+            alt="{{ section.settings.heading | strip_html | escape }}"
+            loading="lazy" width="2000" height="1125"
+          >
+        {%- else -%}
+          <div class="beast-slot"><b>Band slot</b><span>2000 &times; 1125</span></div>
+        {%- endif -%}
+      </div>
+      <div class="beast-band__body">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="beast-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="h1">{{ section.settings.heading | newline_to_br }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="beast-band__text">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- if section.settings.link_label != blank -%}
+          <a href="{{ section.settings.link | default: '#' }}" class="button">
+            {{- section.settings.link_label | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Beast band",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_asset",
+      "label": "Image \u2014 theme asset",
+      "info": "Filename in assets/. Used when no image is picked above."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse",
+      "label": "Put image on the right",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "default": "scheme-3"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Beast band"
+    }
+  ]
+}
+{% endschema %}

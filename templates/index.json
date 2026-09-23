@@ -1,0 +1,194 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "beast-hero",
+      "blocks": {
+        "s1": {
+          "type": "slide",
+          "settings": {
+            "image_asset": "beast-hero-1-desktop.webp",
+            "image_mobile_asset": "beast-hero-1-mobile.webp",
+            "slot_label": "Hero 1 — main seasonal banner",
+            "eyebrow": "",
+            "heading": "Officially\nin India.",
+            "text": "Official MrBeast clothing, now available in India.",
+            "link_label": "Shop the range",
+            "link": "/collections/all",
+            "button_style": "solid",
+            "align": "left"
+          }
+        },
+        "s2": {
+          "type": "slide",
+          "settings": {
+            "image_asset": "beast-hero-2-desktop.webp",
+            "image_mobile_asset": "beast-hero-2-mobile.webp",
+            "slot_label": "Hero 2 — kids collection",
+            "eyebrow": "",
+            "heading": "Beast mode,\nkid sized",
+            "text": "Soft cotton that holds up to the school week.",
+            "link_label": "Kids",
+            "link": "/collections/kids",
+            "button_style": "cyan",
+            "align": "left"
+          }
+        },
+        "s3": {
+          "type": "slide",
+          "settings": {
+            "image_asset": "beast-hero-3-desktop.webp",
+            "image_mobile_asset": "beast-hero-3-mobile.webp",
+            "slot_label": "Hero 3 — adult line",
+            "eyebrow": "",
+            "heading": "Wear it\nloud",
+            "text": "Black, white, blue, grey, red. Pick the one that sounds like you.",
+            "link_label": "Adults",
+            "link": "/collections/adults",
+            "button_style": "solid",
+            "align": "left"
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": {
+        "autoplay": true,
+        "interval": 6
+      }
+    },
+    "chips": {
+      "type": "beast-chips",
+      "blocks": {
+        "c1": {"type": "chip", "settings": {"label": "Shop all", "link": "/collections/all", "image_asset": "beast-hero-1-desktop.webp"}},
+        "c2": {"type": "chip", "settings": {"label": "Adults", "link": "/collections/adults", "image_asset": "beast-tile-adults.webp"}},
+        "c3": {"type": "chip", "settings": {"label": "Kids", "link": "/collections/kids", "image_asset": "beast-tile-kids.webp"}},
+        "c4": {"type": "chip", "settings": {"label": "Bestsellers", "link": "/collections/best-sellers", "image_asset": "beast-tile-best.webp"}}
+      },
+      "block_order": ["c1", "c2", "c3", "c4"],
+      "settings": {
+        "heading": "Find your Beast fit.",
+        "subheading": "One Beast. Different ways to wear it.",
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 24
+      }
+    },
+    "trending": {
+      "type": "beast-carousel",
+      "settings": {
+        "heading": "The crowd favorites",
+        "subheading": "The tees fans are reaching for first.",
+        "collection": "best-sellers",
+        "products_to_show": 12,
+        "show_secondary_image": true,
+        "show_rating": false,
+        "quick_add": false,
+        "button_label": "Shop bestsellers",
+        "color_scheme": "scheme-1",
+        "padding_top": 24,
+        "padding_bottom": 56
+      }
+    },
+    "band": {
+      "type": "beast-band",
+      "settings": {
+        "image_asset": "beast-band.webp",
+        "eyebrow": "Official MrBeast",
+        "heading": "You've watched it.\nNow wear it.",
+        "text": "<p>MrBeast has been on your screen long enough. Now the official MrBeast apparel is here in India.</p><p>Official designs. Classic fits. Bold graphics. Every tee is 100% cotton single jersey with a woven Beast label at the hem.</p>",
+        "link_label": "Shop MrBeast clothing",
+        "link": "/collections/all",
+        "reverse": false,
+        "color_scheme": "scheme-3"
+      }
+    },
+    "trust": {
+      "type": "beast-trust-strip",
+      "blocks": {
+        "tb1": {"type": "promise", "settings": {"icon": "icon-box", "label": "Free shipping ₹999+", "link": "/pages/shipping"}},
+        "tb2": {"type": "promise", "settings": {"icon": "icon-return", "label": "30-day returns", "link": "/pages/returns-exchanges"}},
+        "tb3": {"type": "promise", "settings": {"icon": "icon-heart", "label": "1% donated", "link": "/pages/about"}}
+      },
+      "block_order": ["tb1", "tb2", "tb3"],
+      "settings": {
+        "show_dividers": true,
+        "show_bottom_border": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "feature": {
+      "type": "beast-feature",
+      "settings": {
+        "panel_colour": "blue",
+        "heading": "We Give Back,\nIn a Big Way.",
+        "text": "<p>Doing good has always been part of the Beast way of doing things. As MrBeast's impact in India grows, we'll show you where your support helps us do more.</p>",
+        "image_asset": "beast-philanthropy.webp",
+        "link_label": "Learn more",
+        "link": "https://mrbeast.store/pages/philanthropy",
+        "reverse": false,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "spotlight": {
+      "type": "beast-spotlight",
+      "settings": {
+        "product": "",
+        "image_asset": "beast-book.webp",
+        "heading": "The Book\nEvent Of The Year",
+        "text": "<p>Enter the competition for your chance at $1,000,000. The book is your way in.</p>",
+        "link_label": "Shop the book",
+        "link": "https://mrbeast.store/products/the-most-dangerous-games-book",
+        "reverse": true,
+        "color_scheme": "scheme-3",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "rating": {
+      "type": "beast-rating-strip",
+      "settings": {
+        "eyebrow": "Loved by fans",
+        "score_suffix": "Average Star Rating",
+        "subtext": "Based on [COUNT] reviews from verified buyers.",
+        "bg_colour": "#ebece7",
+        "card_colour": "#ffffff",
+        "star_colour": "#00bce7",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "benefits": {
+      "type": "beast-feature",
+      "blocks": {
+        "b1": {"type": "fact", "settings": {"fact": "100% cotton single jersey — holds its shape, light in Indian weather"}},
+        "b2": {"type": "fact", "settings": {"fact": "Classic fit — straight body, crew neck, easy to move in"}},
+        "b3": {"type": "fact", "settings": {"fact": "High-density and DTF printing — raised finishes you can feel"}},
+        "b4": {"type": "fact", "settings": {"fact": "Beast details — a woven signature label at the hem"}}
+      },
+      "block_order": ["b1", "b2", "b3", "b4"],
+      "settings": {
+        "panel_colour": "black",
+        "heading": "Made For The Fit.",
+        "text": "<p>Fun on the front, serious underneath. Every tee in the range is built to the same standard.</p>",
+        "image_asset": "beast-hero-3-desktop.webp",
+        "link_label": "See the range",
+        "link": "/collections/all",
+        "reverse": true,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": ["hero", "trust", "chips", "trending", "benefits", "spotlight", "band", "feature", "rating"]
+}

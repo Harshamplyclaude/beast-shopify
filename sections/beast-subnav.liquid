@@ -1,0 +1,51 @@
+{%- comment -%}
+  Beast sub-nav — the second header row. Kept as its own section rather than
+  built into header.liquid: Shopify silently rejects a modified header.liquid
+  (and then drops header-group.json with it), so the row lives in the header
+  section group instead and sticks under the header via --header-height.
+{%- endcomment -%}
+{%- liquid
+  assign sub_menu = section.settings.secondary_menu
+-%}
+{%- if sub_menu != blank and sub_menu.links.size > 0 -%}
+  <nav class="beast-subnav color-{{ section.settings.color_scheme }}" aria-label="Store links">
+    <ul class="beast-subnav__list page-width" role="list">
+      {%- for link in sub_menu.links -%}
+        <li class="beast-subnav__item">
+          <a
+            href="{{ link.url }}"
+            class="beast-subnav__link{% if link.active or link.child_active %} beast-subnav__link--active{% endif %}"
+            {% if link.active %}aria-current="page"{% endif %}
+          >
+            {{- link.title | escape -}}
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </nav>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Beast sub-nav",
+  "tag": "div",
+  "class": "beast-subnav-section",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "secondary_menu",
+      "label": "Menu",
+      "info": "Shown as a second header row on desktop."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    { "name": "Beast sub-nav" }
+  ]
+}
+{% endschema %}

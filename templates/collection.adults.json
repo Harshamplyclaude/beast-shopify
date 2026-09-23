@@ -1,0 +1,90 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 24,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "enable_filtering": true,
+        "filter_type": "vertical",
+        "enable_sorting": true,
+        "columns_mobile": "2",
+        "padding_top": 28,
+        "padding_bottom": 40
+      }
+    },
+    "band": {
+      "type": "beast-band",
+      "settings": {
+        "eyebrow": "Official MrBeast",
+        "heading": "The Real Beast.",
+        "text": "<p>This is official MrBeast apparel, made for fans in India. From the Beast branding to the graphics and details, every design comes from the official MrBeast apparel range.</p>",
+        "link_label": "See the full range",
+        "link": "/collections/all",
+        "reverse": false,
+        "color_scheme": "scheme-3",
+        "image_asset": "beast-band.webp"
+      }
+    },
+    "seo-copy": {
+      "type": "rich-text",
+      "blocks": {
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Official MrBeast clothing for adults",
+            "heading_size": "h2"
+          }
+        },
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Classic fits. Bold artwork. Signature Beast details.</p><p>This collection brings together official MrBeast T-shirts made for adult fans and everyday wear, in sizes S to XXL.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "h",
+        "t"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-1",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "product-grid",
+    "seo-copy",
+    "band"
+  ]
+}

@@ -1,0 +1,105 @@
+{%- comment -%}
+  Beast product carousel — horizontal scroller built on Dawn's own product card,
+  so cards stay consistent with the collection grid.
+{%- endcomment -%}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+{%- assign products = section.settings.collection.products -%}
+
+<div class="color-{{ section.settings.color_scheme }} isolate">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="beast-head">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="h1">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p>{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="beast-carousel" data-beast-carousel>
+      <button class="beast-carousel__btn beast-carousel__btn--prev" data-prev aria-label="{{ 'general.slider.previous_slide' | t }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+
+      <ul class="beast-carousel__track" data-track role="list">
+        {%- liquid
+          assign skip_styles = false
+          assign limit = section.settings.products_to_show
+        -%}
+        {%- for product in products limit: limit -%}
+          <li class="beast-carousel__item">
+            {% render 'card-product',
+              card_product: product,
+              media_aspect_ratio: 'portrait',
+              show_secondary_image: section.settings.show_secondary_image,
+              show_vendor: false,
+              show_rating: section.settings.show_rating,
+              skip_styles: skip_styles,
+              section_id: section.id,
+              quick_add: section.settings.quick_add,
+              lazy_load: true
+            %}
+          </li>
+          {%- assign skip_styles = true -%}
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            <li class="beast-carousel__item">
+              {% render 'card-product', show_vendor: false, media_aspect_ratio: 'portrait' %}
+            </li>
+          {%- endfor -%}
+        {%- endfor -%}
+      </ul>
+
+      <button class="beast-carousel__btn beast-carousel__btn--next" data-next aria-label="{{ 'general.slider.next_slide' | t }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="beast-actions">
+        <a href="{{ section.settings.collection.url | default: '#' }}" class="button">
+          {{- section.settings.button_label | escape -}}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Beast carousel",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Trending today" },
+    { "type": "text", "id": "subheading", "label": "Subheading" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_to_show", "min": 4, "max": 24, "step": 1,
+      "label": "Products to show", "default": 12 },
+    { "type": "checkbox", "id": "show_secondary_image", "label": "Show second image on hover", "default": true },
+    { "type": "checkbox", "id": "show_rating", "label": "Show product rating", "default": false },
+    { "type": "checkbox", "id": "quick_add", "label": "Enable quick add", "default": false },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop all" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px",
+      "label": "Top padding", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px",
+      "label": "Bottom padding", "default": 60 }
+  ],
+  "presets": [ { "name": "Beast carousel" } ]
+}
+{% endschema %}

@@ -1,0 +1,1171 @@
+/* ==========================================================================
+   BEAST LAYER  —  loads after Dawn's base.css and re-skins it.
+   Tokens come from the MrBeast Apparel & Merchandise Brand Guidelines:
+     Primary 1  MrBeast Magenta  #E64783  (Pantone 7424 C)
+     Primary 2  MrBeast Cyan     #00BCE7  (Pantone 306 C)
+     Secondary  Black / White — support + contrast only
+     The two primaries are meant to carry ~80% of the brand.
+   Type ladder:
+     Headlines  Monument Extended Ultrabold, always ALL CAPS
+     Subheads   Transducer Bold / Medium
+     Body       Work Sans Regular (14-48px)
+   Monument Extended and Transducer are licensed faces and are NOT bundled.
+   Drop the .woff2 files into assets/ and the @font-face rules below take over;
+   until then each stack falls back to the closest free face.
+   ========================================================================== */
+
+:root {
+  --beast-magenta: #e64783;
+  --beast-cyan:    #00bce7;
+  --beast-black:   #000000;
+  --beast-white:   #ffffff;
+
+  /* Work Sans is the guideline body face. It is loaded from Google Fonts in
+     theme.liquid and asserted here, so brand type never depends on a Shopify
+     font-library handle (an invalid one makes font_face throw). */
+  --font-body-family: "Work Sans", var(--font-body-fallback, sans-serif);
+  --font-heading-family: "Work Sans", var(--font-body-fallback, sans-serif);
+  --font-display: "Monument Extended", "Archivo", "Arial Black", sans-serif;
+  --font-sub:     "Transducer", "Saira", "Work Sans", sans-serif;
+
+  --beast-ease: cubic-bezier(.2, .7, .3, 1);
+}
+
+@font-face {
+  font-family: "Monument Extended"; font-weight: 800; font-style: normal; font-display: swap;
+  src: url("MonumentExtended-Ultrabold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Transducer"; font-weight: 700; font-style: normal; font-display: swap;
+  src: url("Transducer-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Transducer"; font-weight: 500; font-style: normal; font-display: swap;
+  src: url("Transducer-Medium.woff2") format("woff2");
+}
+
+/* --- headline ladder ------------------------------------------------------ */
+h1, h2, h3, h4, h5,
+.h0, .h1, .h2, .h3, .h4, .h5,
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: .95;
+  letter-spacing: -.005em;
+  font-stretch: 125%;                       /* drives Archivo's width axis */
+  font-variation-settings: "wdth" 125;
+}
+.h0 { font-size: clamp(38px, 6.4vw, 78px); }
+.h1 { font-size: clamp(30px, 4.4vw, 54px); }
+.h2 { font-size: clamp(24px, 3vw, 38px); }
+
+/* subhead / label face — anything small, uppercase and structural */
+.beast-sub,
+.badge,
+.button,
+.card__heading,
+.header__menu-item,
+.price,
+.product-form__submit,
+.facets__summary,
+.footer-block__heading {
+  font-family: var(--font-sub);
+  font-weight: 700;
+  letter-spacing: .07em;
+}
+.beast-eyebrow {
+  font-family: var(--font-sub); font-weight: 700; font-size: 11px;
+  letter-spacing: .2em; text-transform: uppercase; color: rgba(var(--color-foreground), .6);
+}
+
+/* --- buttons -------------------------------------------------------------- */
+.button, .shopify-challenge__button, .customer button {
+  text-transform: uppercase; font-size: 13px; letter-spacing: .1em;
+  min-height: 52px; border-radius: 0;
+  transition: background-color .18s var(--beast-ease), color .18s var(--beast-ease);
+}
+.button:not([disabled]):hover::after { box-shadow: none; }
+.button:not(.button--secondary):not(.button--tertiary):not([disabled]):hover {
+  background: var(--beast-magenta); color: var(--beast-white);
+}
+.button--secondary:not([disabled]):hover { background: var(--beast-black); color: var(--beast-white); }
+
+/* --- badges --------------------------------------------------------------- */
+.badge {
+  border-radius: 0; text-transform: uppercase; font-size: 10px;
+  letter-spacing: .12em; padding: 5px 10px; border: 0;
+}
+.beast-badge--new  { background: var(--beast-magenta); color: var(--beast-white); }
+.beast-badge--cyan { background: var(--beast-cyan);    color: var(--beast-black); }
+
+/* --- announcement bar ----------------------------------------------------- */
+.announcement-bar { background: var(--beast-magenta); }
+.announcement-bar__message {
+  font-family: var(--font-sub); font-weight: 700; font-size: 12px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--beast-white);
+  padding: 11px 0;
+}
+
+/* --- header --------------------------------------------------------------- */
+.header__menu-item {
+  text-transform: uppercase; font-size: 13px; letter-spacing: .08em;
+}
+.header__menu-item:hover span,
+.header__active-menu-item { color: var(--beast-magenta); text-decoration: none; }
+.header__heading-logo { max-height: 40px; width: auto; }
+.header__icon:not(.header__icon--cart) .icon { width: 21px; height: 21px; }
+.cart-count-bubble { background: var(--beast-magenta); color: var(--beast-white); border-radius: 999px; }
+
+/* Dawn shrinks the header icons on small screens; the cart in particular ends
+   up well under the 44px comfortable tap target. */
+@media screen and (max-width: 749px) {
+  /* Every icon keeps the SAME 44px box, so the row shares one centre line and
+     the cart still ends on the page gutter. An earlier version sized the cart's
+     box to 52px to enlarge the glyph, which dropped it 4px below the account
+     icon and pushed it 4px past the gutter. */
+  .header__icons { align-items: center; }
+  .header__icons .header__icon,
+  .header__icon--account,
+  .header__icon--search,
+  .header__icon--cart,
+  .header__icons .header__icon .svg-wrapper {
+    width: 44px; height: 44px;
+  }
+  .header__icons .header__icon:not(.header__icon--cart) .icon {
+    width: 26px; height: 26px;
+  }
+
+  /* The cart glyph fills only ~55% of its 40x40 viewBox where search/account
+     fill ~85% of an 18x19 one, so its SVG is scaled up instead. It overflows
+     the 44px box by 4px a side, which is transparent padding and costs no
+     layout — the box, and therefore the alignment, is unchanged. */
+  .header__icon--cart .icon {
+    width: 52px; height: 52px;
+  }
+  .cart-count-bubble {
+    min-width: 19px; height: 19px; font-size: 11px;
+    top: 4px; right: 2px;
+  }
+}
+.mega-menu__list { border-top: 3px solid var(--beast-magenta); }
+
+/* --- product cards -------------------------------------------------------- */
+.card__heading { font-size: 13px; text-transform: uppercase; line-height: 1.3; }
+.card__heading a:hover { color: var(--beast-magenta); }
+.card__information { padding-top: 12px; }
+.price { font-family: var(--font-sub); font-weight: 700; font-size: 13px; letter-spacing: .04em; }
+.price--on-sale .price-item--regular { color: rgba(var(--color-foreground), .45); }
+.card--standard > .card__content .card__information { padding-inline: 0; }
+.card__media img { transition: transform .55s var(--beast-ease), opacity .3s var(--beast-ease); }
+
+/* colour swatch row under a card */
+.beast-swatches { display: flex; gap: 6px; margin-top: 8px; align-items: center; }
+.beast-swatch {
+  width: 15px; height: 15px; border-radius: 999px; border: 1px solid rgba(0,0,0,.2);
+  display: block;
+}
+.beast-swatch--more { font-size: 11px; color: rgba(var(--color-foreground), .5); }
+
+/* --- custom section: hero ------------------------------------------------- */
+.beast-hero { position: relative; background: #0b0b0b; overflow: hidden; }
+.beast-hero__slide { position: relative; display: none; }
+.beast-hero__slide.is-active { display: block; }
+.beast-hero__media { position: relative; aspect-ratio: 16 / 6.4; }
+.beast-hero__media img, .beast-hero__media video {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+/* Art direction: landscape crop on desktop, portrait crop on phones.
+   Either can be absent — whichever exists shows at both sizes.
+   These selectors must out-specify `.beast-hero__media img` above (0,1,1),
+   or both crops stack on top of each other. */
+.beast-hero__media .beast-hero__img--mobile { display: none; }
+@media screen and (max-width: 749px) {
+  .beast-hero__media:has(.beast-hero__img--mobile) .beast-hero__img--desktop { display: none; }
+  .beast-hero__media .beast-hero__img--mobile { display: block; }
+}
+.beast-hero__media::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.2) 46%, rgba(0,0,0,0) 70%);
+}
+.beast-hero__content {
+  position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start; gap: 18px;
+  max-width: var(--page-width); margin-inline: auto;
+  padding-inline: 5rem; color: var(--beast-white);
+}
+.beast-hero__content--center { align-items: center; text-align: center; }
+.beast-hero__content--right  { align-items: flex-end;  text-align: right; }
+.beast-hero__eyebrow {
+  color: var(--beast-cyan);
+  font-size: clamp(12px, 1vw, 14px);
+  letter-spacing: .18em;
+  line-height: 1.4;
+}
+.beast-hero__title { color: var(--beast-white); max-width: 16ch; }
+.beast-hero__text {
+  max-width: 46ch;
+  color: rgba(255,255,255,.92);
+  margin: 0;
+  font-size: clamp(16px, 1.45vw, 19px);
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+/* Hero CTAs sit on photography, and the mobile crops fall to near-black at the
+   bottom where the copy lands — a black solid button measured 1.05:1 against
+   it, i.e. invisible. Both hero styles are therefore light-on-dark. */
+.beast-hero__content .button,
+.beast-hero__content .button--secondary {
+  background: var(--beast-white);
+  color: var(--beast-black);
+  border: 0;
+  box-shadow: none;
+}
+.beast-hero__content .button--secondary {
+  background: var(--beast-cyan);
+}
+.beast-hero__content .button::after,
+.beast-hero__content .button::before { box-shadow: none; }
+.beast-hero__content .button:hover { background: var(--beast-magenta); color: var(--beast-white); }
+.beast-hero__content .button--secondary:hover { background: var(--beast-magenta); color: var(--beast-white); }
+.beast-hero__dots {
+  position: absolute; bottom: 20px; left: 50%; translate: -50% 0; z-index: 3; display: flex; gap: 8px;
+}
+.beast-hero__dot {
+  width: 9px; height: 9px; border-radius: 999px; background: rgba(255,255,255,.45);
+  border: 0; padding: 0; transition: width .2s var(--beast-ease), background .2s var(--beast-ease);
+}
+.beast-hero__dot.is-active { background: var(--beast-cyan); width: 28px; }
+.beast-hero__arrow {
+  position: absolute; top: 50%; translate: 0 -50%; z-index: 3; width: 44px; height: 44px;
+  display: grid; place-items: center; background: rgba(0,0,0,.34); color: #fff; border: 0;
+}
+.beast-hero__arrow:hover { background: var(--beast-magenta); }
+.beast-hero__arrow--prev { left: 14px; }
+.beast-hero__arrow--next { right: 14px; }
+.beast-hero__arrow svg { width: 15px; height: 15px; }
+@media screen and (max-width: 989px) {
+  .beast-hero__content { padding-inline: 2rem; }
+}
+@media screen and (max-width: 749px) {
+  /* The mobile art is shot 9:16 — a taller box shows more of it and leaves
+     room for the copy to sit in the dark bottom third. */
+  .beast-hero__media { aspect-ratio: 5 / 7; }
+  .beast-hero__media::after {
+    background: linear-gradient(
+      0deg,
+      rgba(0,0,0,.88)  0%,
+      rgba(0,0,0,.74) 30%,
+      rgba(0,0,0,.34) 58%,
+      rgba(0,0,0,0)   84%
+    );
+  }
+  .beast-hero__content {
+    justify-content: flex-end; align-items: flex-start;
+    padding-bottom: 54px; gap: 12px;
+  }
+  .beast-hero__title { max-width: 14ch; }
+  .beast-hero__text { font-size: 15px; max-width: 34ch; }
+  .beast-hero__arrow { display: none; }
+}
+
+/* placeholder shown while a banner slot is still empty */
+.beast-slot {
+  position: absolute; inset: 0;
+  display: grid; align-content: end; justify-items: end; gap: 4px;
+  padding: 18px 22px; text-align: right;
+  background: repeating-linear-gradient(45deg, #111 0 14px, #171717 14px 28px);
+  color: #4f4f4f; font-family: var(--font-sub); font-size: 10px;
+  letter-spacing: .18em; text-transform: uppercase;
+}
+.beast-slot b { color: rgba(0, 188, 231, .75); font-size: 12px; letter-spacing: .1em; }
+
+/* --- custom section: category chips --------------------------------------- */
+.beast-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.beast-chip {
+  padding: 12px 24px; border: 2px solid rgb(var(--color-foreground));
+  /* without an explicit colour these render as default blue / visited purple */
+  color: rgb(var(--color-foreground)); text-decoration: none;
+  font-family: var(--font-sub); font-weight: 700; font-size: 12px;
+  letter-spacing: .1em; text-transform: uppercase;
+  transition: background-color .16s var(--beast-ease), color .16s var(--beast-ease);
+}
+.beast-chip:hover, .beast-chip.is-active {
+  background: rgb(var(--color-foreground)); color: rgb(var(--color-background));
+}
+
+/* --- chips as image cards ------------------------------------------------ */
+.beast-chips--cards {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px, 1.4vw, 18px);
+}
+@media screen and (max-width: 749px) {
+  .beast-chips--cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.beast-card {
+  display: block; text-decoration: none; color: rgb(var(--color-foreground));
+  position: relative; overflow: hidden; background: rgba(var(--color-foreground), .05);
+}
+.beast-card__media { aspect-ratio: 1 / 1.15; overflow: hidden; }
+.beast-card__media img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .6s var(--beast-ease);
+}
+.beast-card:hover .beast-card__media img { transform: scale(1.05); }
+.beast-card::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(0deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,0) 52%);
+}
+.beast-card__label {
+  position: absolute; inset: auto 0 0 0; z-index: 2; padding: 16px 18px;
+  color: #fff; font-family: var(--font-sub); font-weight: 700; font-size: 13px;
+  letter-spacing: .1em; text-transform: uppercase;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.beast-card__label svg { width: 15px; height: 15px; flex: none; }
+
+/* --- custom section: carousel --------------------------------------------- */
+.beast-carousel { position: relative; }
+.beast-carousel__track {
+  /* No minmax() here: a 0 minimum lets the tracks collapse and crams every
+     card into one screen instead of overflowing into a scroller. */
+  display: grid; grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 54px) / 4);
+  gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory;
+  scrollbar-width: none; padding-bottom: 4px;
+}
+.beast-carousel__track::-webkit-scrollbar { display: none; }
+.beast-carousel__track > * { scroll-snap-align: start; }
+.beast-carousel__btn {
+  position: absolute; top: 33%; translate: 0 -50%; z-index: 4; width: 42px; height: 42px;
+  display: grid; place-items: center; background: rgb(var(--color-background));
+  border: 2px solid rgb(var(--color-foreground));
+}
+.beast-carousel__btn:hover { background: rgb(var(--color-foreground)); color: rgb(var(--color-background)); }
+.beast-carousel__btn svg { width: 14px; height: 14px; }
+.beast-carousel__btn[disabled] { opacity: .25; pointer-events: none; }
+.beast-carousel__btn--prev { left: -19px; }
+.beast-carousel__btn--next { right: -19px; }
+@media screen and (max-width: 989px) {
+  .beast-carousel__track { grid-auto-columns: calc((100% - 24px) / 2.4); }
+  .beast-carousel__btn { display: none; }
+}
+@media screen and (max-width: 749px) {
+  .beast-carousel__track { grid-auto-columns: 62vw; gap: 12px; }
+}
+
+/* --- custom section: category tiles --------------------------------------- */
+.beast-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.beast-tile { position: relative; display: block; overflow: hidden; background: #f2f2f2; }
+.beast-tile__media { aspect-ratio: 4 / 5; }
+.beast-tile__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--beast-ease); }
+.beast-tile:hover .beast-tile__media img { transform: scale(1.05); }
+.beast-tile::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,.66) 0%, rgba(0,0,0,0) 56%);
+}
+.beast-tile__body {
+  position: absolute; inset: auto 0 0 0; z-index: 2; padding: 24px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 14px; color: #fff;
+}
+.beast-tile__body .h2 { color: #fff; }
+@media screen and (max-width: 749px) {
+  .beast-tiles { grid-template-columns: 1fr; }
+}
+
+/* --- custom section: mission band ----------------------------------------- */
+.beast-band { position: relative; overflow: hidden; }
+.beast-band__grid { display: grid; grid-template-columns: 1.05fr 1fr; }
+.beast-band__media { position: relative; min-height: 360px; }
+.beast-band__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.beast-band__body {
+  padding: clamp(30px, 5vw, 68px); display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start; gap: 18px;
+}
+.beast-band__body p { margin: 0; max-width: 52ch; opacity: .85; }
+.beast-band--reverse .beast-band__media { order: 2; }
+@media screen and (max-width: 749px) {
+  .beast-band__grid { grid-template-columns: 1fr; }
+  .beast-band--reverse .beast-band__media { order: 0; }
+}
+
+/* --- custom section: stats ------------------------------------------------ */
+.beast-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: center; }
+.beast-stat__num {
+  font-family: var(--font-display); font-weight: 800;
+  font-stretch: 125%; font-variation-settings: "wdth" 125;
+  font-size: clamp(30px, 4.4vw, 56px); line-height: 1; color: var(--beast-cyan);
+}
+.beast-stat__label {
+  font-family: var(--font-sub); font-weight: 700; font-size: 11px;
+  letter-spacing: .18em; text-transform: uppercase; margin-top: 10px; opacity: .72;
+}
+@media screen and (max-width: 749px) { .beast-stats { grid-template-columns: 1fr; gap: 28px; } }
+
+/* --- custom section: reviews ---------------------------------------------- */
+.beast-reviews { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.beast-review {
+  border: 1px solid rgba(var(--color-foreground), .14); padding: 24px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.beast-review__body { margin: 0; flex: 1; opacity: .8; font-size: 15px; }
+.beast-review__by { font-size: 12px; opacity: .55; }
+.beast-stars { display: flex; gap: 2px; color: var(--beast-magenta); }
+.beast-stars svg { width: 15px; height: 15px; }
+@media screen and (max-width: 989px) { .beast-reviews { grid-template-columns: repeat(2, 1fr); } }
+@media screen and (max-width: 749px) { .beast-reviews { grid-template-columns: 1fr; } }
+
+/* --- product page --------------------------------------------------------- */
+.product__title h1, .product__title > * { text-transform: uppercase; }
+.product__text.beast-eyebrow { margin-bottom: 4px; }
+.product-form__submit { text-transform: uppercase; letter-spacing: .12em; }
+.product-form__input .form__label { font-family: var(--font-sub); font-weight: 700;
+  font-size: 11px; letter-spacing: .16em; text-transform: uppercase; }
+
+/* square size pills, Beast-style */
+.product-form__input input[type='radio'] + label,
+variant-selects .product-form__input label {
+  border-radius: 0; min-width: 52px; font-family: var(--font-sub);
+  font-weight: 700; font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+}
+.product-form__input input[type='radio']:checked + label {
+  background: var(--beast-black); color: var(--beast-white); border-color: var(--beast-black);
+}
+
+/* colour swatches on the PDP */
+.beast-colorway { display: flex; gap: 10px; flex-wrap: wrap; }
+.beast-colorway__item {
+  width: 34px; height: 34px; border-radius: 999px; border: 1px solid rgba(0,0,0,.2);
+  display: block; position: relative;
+}
+.beast-colorway__item.is-active {
+  box-shadow: 0 0 0 2px rgb(var(--color-background)), 0 0 0 4px var(--beast-black);
+}
+
+/* accordion rows (Product details / Shipping & returns) */
+.beast-accordion summary {
+  display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+  padding: 18px 0; border-top: 1px solid rgba(var(--color-foreground), .14);
+  font-family: var(--font-sub); font-weight: 700; font-size: 12px;
+  letter-spacing: .14em; text-transform: uppercase; list-style: none;
+}
+.beast-accordion summary::-webkit-details-marker { display: none; }
+.beast-accordion .beast-accordion__body { padding-bottom: 20px; opacity: .85; }
+.beast-accordion[open] summary { color: var(--beast-magenta); }
+
+/* the small trust strip under the add-to-cart button */
+.beast-trust {
+  display: flex; align-items: center; gap: 10px; padding: 14px 16px; margin-top: 16px;
+  background: var(--beast-cyan); color: var(--beast-black);
+  font-family: var(--font-sub); font-weight: 700; font-size: 11px;
+  letter-spacing: .1em; text-transform: uppercase;
+}
+.beast-trust svg { width: 18px; height: 18px; flex: none; }
+
+/* --- collection ----------------------------------------------------------- */
+.collection-hero__title, .main-collection-title { text-transform: uppercase; }
+.facets__summary, .facets__heading { font-family: var(--font-sub); font-weight: 700;
+  font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+.active-facets__button-inner { border-radius: 0; }
+
+/* --- footer --------------------------------------------------------------- */
+.footer { border-top: 0; }
+.footer-block__heading {
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--beast-cyan);
+}
+.footer__content-bottom { border-top: 1px solid rgba(255,255,255,.16); }
+.footer .list-social__link:hover { color: var(--beast-magenta); }
+.footer-block__newsletter .field__input { border-radius: 0; }
+
+/* --- utilities ------------------------------------------------------------ */
+.beast-center { text-align: center; }
+.beast-head { text-align: center; margin-bottom: clamp(20px, 3vw, 36px); }
+.beast-head p { margin: 10px auto 0; max-width: 620px; opacity: .72; }
+.beast-actions { margin-top: clamp(22px, 3vw, 34px); display: flex; justify-content: center; }
+
+/* ==========================================================================
+   Judge.me — brand skin
+   Styled via Judge.me's public jdgm-* hooks so the widget reads as part of
+   this store rather than a bolted-on app: magenta stars, square corners,
+   Transducer subheads, Work Sans body, black buttons.
+   ========================================================================== */
+.jdgm-widget,
+.jdgm-widget * { font-family: var(--font-body-family); }
+
+/* stars take the brand magenta */
+.jdgm-star { color: var(--beast-magenta) !important; }
+.jdgm-star.jdgm--off { color: rgba(var(--color-foreground), .22) !important; }
+
+/* widget heading matches our section headings */
+.jdgm-rev-widg__title,
+.jdgm-histogram__average-rating,
+.jdgm-rev-widg__summary-title {
+  font-family: var(--font-display) !important;
+  font-weight: 800; text-transform: uppercase; letter-spacing: -.005em;
+  font-stretch: 125%; font-variation-settings: "wdth" 125;
+}
+
+/* the preview badge that sits under the product title */
+.jdgm-prev-badge__text {
+  font-family: var(--font-sub) !important; font-weight: 700;
+  font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+  color: rgba(var(--color-foreground), .7);
+}
+
+/* square everything, like the rest of the theme */
+.jdgm-widget .jdgm-btn,
+.jdgm-write-rev-link,
+.jdgm-rev__reply,
+.jdgm-form__fieldset input,
+.jdgm-form__fieldset textarea,
+.jdgm-paginate__page {
+  border-radius: 0 !important;
+}
+
+/* buttons follow our button system */
+.jdgm-widget .jdgm-btn,
+.jdgm-write-rev-link {
+  background: var(--beast-black) !important;
+  color: var(--beast-white) !important;
+  border: 2px solid var(--beast-black) !important;
+  font-family: var(--font-sub) !important; font-weight: 700;
+  font-size: 12px !important; letter-spacing: .1em; text-transform: uppercase;
+  min-height: 48px; padding: 0 28px !important;
+  transition: background-color .18s var(--beast-ease), border-color .18s var(--beast-ease);
+}
+.jdgm-widget .jdgm-btn:hover,
+.jdgm-write-rev-link:hover {
+  background: var(--beast-magenta) !important;
+  border-color: var(--beast-magenta) !important;
+}
+
+/* review cards */
+.jdgm-rev {
+  border-top: 1px solid rgba(var(--color-foreground), .14) !important;
+  padding-block: 22px !important;
+}
+.jdgm-rev__title {
+  font-family: var(--font-sub) !important; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .04em; font-size: 14px !important;
+}
+.jdgm-rev__body { opacity: .85; }
+.jdgm-rev__author,
+.jdgm-rev__timestamp { font-size: 12px !important; opacity: .6; }
+
+/* verified badge in brand cyan, not the default green */
+.jdgm-rev__buyer-badge {
+  background: var(--beast-cyan) !important; color: var(--beast-black) !important;
+  border-radius: 0 !important; font-family: var(--font-sub) !important;
+  font-weight: 700; font-size: 10px !important; letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* rating histogram bars */
+.jdgm-histogram__bar-content { background: var(--beast-magenta) !important; }
+
+/* keep the widget inside our page rhythm */
+.jdgm-widget { margin-block: clamp(24px, 4vw, 48px); }
+
+/* ==========================================================================
+   mrbeast.store-style blocks — trust strip, spotlight, feature panel,
+   two-row sticky header, and the footer treatment.
+   ========================================================================== */
+
+/* --- shared: underlined text link (used instead of a filled button) ------- */
+.beast-textlink {
+  display: inline-block;
+  font-family: var(--font-sub);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: .08em;
+  line-height: 1.2;
+  color: currentColor;
+  text-decoration: none;
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 5px;
+  transition: opacity .18s var(--beast-ease);
+}
+.beast-textlink:hover,
+.beast-textlink:focus-visible { color: currentColor; opacity: .62; }
+
+/* Same display face, caps and width axis as every other section heading — an
+   earlier version ran these in title-case Work Sans to copy mrbeast.store,
+   which read as a font error next to the Monument headings around them. */
+.beast-spotlight__heading,
+.beast-feature__heading {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-stretch: 125%;
+  font-variation-settings: "wdth" 125;
+  letter-spacing: -.005em;
+  line-height: .95;
+  margin: 0;
+}
+
+/* --- trust strip ---------------------------------------------------------- */
+.beast-trust-strip__row {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.beast-trust-strip__item {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  text-align: center;
+  padding: 2px 8px;
+}
+.beast-trust-strip--dividers .beast-trust-strip__item + .beast-trust-strip__item {
+  border-left: 1px solid rgba(var(--color-foreground), .14);
+}
+.beast-trust-strip--rule { border-bottom: 1px solid rgba(var(--color-foreground), .12); }
+.beast-trust-strip__icon { display: block; line-height: 0; color: rgb(var(--color-foreground)); }
+.beast-trust-strip__icon svg { width: 30px; height: 30px; }
+.beast-trust-strip__label {
+  font-family: var(--font-sub);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(11px, 1.5vw, 15px);
+  letter-spacing: .04em;
+  line-height: 1.25;
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+}
+a.beast-trust-strip__label:hover { color: var(--beast-magenta); }
+@media screen and (max-width: 749px) {
+  .beast-trust-strip__item { gap: 8px; padding: 2px 4px; }
+  .beast-trust-strip__icon svg { width: 22px; height: 22px; }
+}
+
+/* --- spotlight ------------------------------------------------------------ */
+.beast-spotlight {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+.beast-spotlight__media { position: relative; overflow: hidden; }
+.beast-spotlight__media img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.beast-spotlight__body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 5vw;
+}
+.beast-spotlight__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 42ch;
+  text-align: center;
+}
+.beast-spotlight__eyebrow {
+  margin: 0;
+  font-family: var(--font-sub);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .24em;
+  font-size: 12px;
+  color: var(--beast-cyan);
+}
+.beast-spotlight__heading { font-size: clamp(28px, 3.2vw, 48px); }
+.beast-spotlight__text {
+  font-size: clamp(15px, 1.1vw, 18px);
+  line-height: 1.6;
+  color: rgba(var(--color-foreground), .82);
+}
+.beast-spotlight__text > p { margin: 0 0 .6em; }
+.beast-spotlight__text > p:last-child { margin-bottom: 0; }
+@media screen and (min-width: 750px) {
+  .beast-spotlight__media { min-height: 520px; }
+  .beast-spotlight--reverse .beast-spotlight__media { order: 2; }
+}
+@media screen and (max-width: 749px) {
+  .beast-spotlight { grid-template-columns: minmax(0, 1fr); }
+  .beast-spotlight__media { aspect-ratio: 4 / 5; }
+  .beast-spotlight__body { padding-inline: 20px; }
+}
+
+/* --- feature panel -------------------------------------------------------- */
+.beast-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+.beast-feature__panel {
+  background: var(--beast-panel-bg);
+  color: var(--beast-panel-fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 6vw;
+}
+.beast-feature__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  max-width: 44ch;
+  text-align: center;
+}
+.beast-feature__heading { font-size: clamp(26px, 2.8vw, 44px); }
+.beast-feature__text {
+  font-size: clamp(14px, 1vw, 17px);
+  line-height: 1.6;
+  opacity: .88;
+}
+.beast-feature__text > p { margin: 0 0 .6em; }
+.beast-feature__text > p:last-child { margin-bottom: 0; }
+.beast-feature__facts {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: clamp(14px, 1vw, 17px);
+  line-height: 1.4;
+}
+.beast-feature__media { overflow: hidden; }
+.beast-feature__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media screen and (min-width: 750px) {
+  .beast-feature__media { min-height: 520px; }
+  .beast-feature--reverse .beast-feature__panel { order: 2; }
+}
+@media screen and (max-width: 749px) {
+  .beast-feature { grid-template-columns: minmax(0, 1fr); }
+  .beast-feature__media { aspect-ratio: 4 / 3; order: -1; }
+  .beast-feature--reverse .beast-feature__media { order: -1; }
+  .beast-feature__panel { padding-inline: 20px; }
+}
+
+/* --- header: logo left, nav centred, icons right, plus a second row ------- */
+@media screen and (min-width: 990px) {
+  .header--middle-left.header--has-menu:not(.drawer-menu) {
+    grid-template-areas: 'heading navigation icons';
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    column-gap: 2rem;
+  }
+  .header--middle-left:not(.drawer-menu) .header__heading,
+  .header--middle-left:not(.drawer-menu) .header__heading-link { justify-self: start; }
+  .header--middle-left:not(.drawer-menu) .header__inline-menu { justify-self: center; }
+  .header--middle-left:not(.drawer-menu) .header__icons { justify-self: end; }
+
+  /* Rounded pill on the primary nav, as on mrbeast.store. The pill carries the
+     hover state, so the label stays dark — magenta on #e8eaee is only 3.4:1. */
+  .header__inline-menu .header__menu-item {
+    padding: 10px 16px;
+    border-radius: 999px;
+    transition: background-color .18s var(--beast-ease);
+  }
+  .header__inline-menu .header__menu-item:hover,
+  .header__inline-menu .header__menu-item:focus-visible,
+  .header__inline-menu .header__active-menu-item {
+    background-color: #e8eaee;
+    color: rgb(var(--color-foreground));
+    text-decoration: none;
+  }
+  .header__inline-menu .header__menu-item:hover span,
+  .header__inline-menu .header__active-menu-item span {
+    color: rgb(var(--color-foreground));
+    text-decoration: none;
+  }
+}
+
+/* The sub-nav is its own section in the header group, so the sticky element
+   has to be the section wrapper — a sticky child cannot escape its parent's
+   box. Dawn's sticky-header JS publishes --header-height on <html>, which is
+   exactly the offset this row needs to sit under the bar. */
+.beast-subnav-section { display: none; }
+@media screen and (min-width: 990px) {
+  /* Dawn drops later header-group members to `z-index: initial` via
+     `.section-header ~ .shopify-section-group-header-group` (0,2,0), which beat
+     a plain .beast-subnav-section rule — the row then painted UNDER the page
+     content once you scrolled. This selector out-specifies it. */
+  .section-header ~ .shopify-section-group-header-group.beast-subnav-section,
+  .beast-subnav-section {
+    display: block;
+    position: sticky;
+    top: var(--header-height, 0px);
+    z-index: 3;
+  }
+}
+.beast-subnav {
+  display: none;
+  border-top: 1px solid rgba(var(--color-foreground), .1);
+  background: rgb(var(--color-background));
+}
+.beast-subnav__list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 36px;
+  list-style: none;
+  margin: 0 auto;
+  padding-top: 11px;
+  padding-bottom: 11px;
+}
+.beast-subnav__link {
+  font-family: var(--font-body-family);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.2;
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: border-color .18s var(--beast-ease);
+}
+.beast-subnav__link:hover,
+.beast-subnav__link--active {
+  color: rgb(var(--color-foreground));
+  border-bottom-color: var(--beast-magenta);
+}
+@media screen and (min-width: 990px) { .beast-subnav { display: block; } }
+
+/* --- footer --------------------------------------------------------------- */
+.footer-block__newsletter-subtext {
+  margin: 6px 0 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  opacity: .85;
+}
+.footer-block__newsletter .newsletter-form__field-wrapper { max-width: 460px; }
+.footer-block__newsletter .newsletter-form__field-wrapper .field {
+  display: flex;
+  align-items: stretch;
+  border-radius: 0;
+  background: transparent;
+}
+.footer-block__newsletter .field:before,
+.footer-block__newsletter .field:after { display: none; }
+.footer-block__newsletter .field__input {
+  background: var(--beast-white);
+  color: var(--beast-black);
+  border: 0;
+  height: 50px;
+  padding: 0 16px;
+  border-radius: 0;
+}
+.footer-block__newsletter .field__input::placeholder { color: rgba(0, 0, 0, .55); opacity: 1; }
+.footer-block__newsletter .field__label { display: none; }
+/* component-newsletter.css sets `background: inherit` on
+   .newsletter-form__button:not(:focus-visible):not(.focused) — (0,3,0) and
+   loaded after this file — so the solid fill has to out-specify that, or the
+   button renders transparent on transparent (measured at 1:1). */
+.footer-block__newsletter .newsletter-form__button,
+.footer-block__newsletter .newsletter-form__button:not(:focus-visible):not(.focused) {
+  position: static;
+  width: auto;
+  height: 50px;
+  padding: 0 26px;
+  background: var(--beast-cyan);
+  color: var(--beast-black);
+  border: 0;
+  border-radius: 0;
+  flex: 0 0 auto;
+}
+.footer-block__newsletter .newsletter-form__button:hover,
+.footer-block__newsletter .newsletter-form__button:not(:focus-visible):not(.focused):hover {
+  background: var(--beast-magenta);
+  color: var(--beast-white);
+}
+.newsletter-form__button-label {
+  font-family: var(--font-sub);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: .08em;
+}
+.footer-block__newsletter-privacy {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.footer-block__newsletter-privacy:hover { color: var(--beast-cyan); }
+
+.footer__social-group { margin-top: 44px; }
+.footer__social-heading {
+  font-family: var(--font-sub);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: 15px;
+  margin: 0 0 14px;
+}
+.footer__social-group .footer__list-social { justify-content: flex-start; margin: 0; }
+.footer__social-group .list-social__item .icon { width: 25px; height: 25px; }
+
+.footer__payment-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 12px;
+  font-family: var(--font-sub);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: 14px;
+}
+.footer__payment-lock { display: inline-flex; line-height: 0; }
+.footer__payment-lock svg { width: 17px; height: 17px; }
+.footer__payment { align-items: flex-start; }
+.footer__payment .list-payment { justify-content: flex-start; margin: 0; }
+
+@media screen and (max-width: 749px) {
+  .footer-block__newsletter .newsletter-form__field-wrapper { max-width: none; }
+  .footer__social-group { margin-top: 28px; }
+  .footer__payment-heading { justify-content: center; }
+  .footer__payment .list-payment { justify-content: center; }
+  .footer__social-group .footer__list-social { justify-content: center; }
+  .footer__social-heading { text-align: center; }
+}
+
+/* --- rating strip --------------------------------------------------------- */
+.beast-rating { background: var(--beast-rating-bg, #ebece7); color: #000; }
+.beast-rating__head { text-align: center; max-width: 60ch; margin: 0 auto; }
+.beast-rating__eyebrow {
+  margin: 0 0 14px;
+  font-family: var(--font-sub);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: 13px;
+}
+.beast-rating__score {
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  text-transform: none;
+  font-stretch: normal;
+  font-variation-settings: normal;
+  letter-spacing: -.025em;
+  line-height: 1.05;
+  font-size: clamp(30px, 4.2vw, 56px);
+  margin: 0;
+}
+.beast-rating__sub {
+  margin: 14px 0 0;
+  font-size: clamp(14px, 1.1vw, 17px);
+  line-height: 1.5;
+}
+.beast-rating__cards {
+  list-style: none;
+  margin: 40px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+.beast-rating__card {
+  background: var(--beast-rating-card, #fff);
+  padding: 28px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.beast-rating__card-title {
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  text-transform: none;
+  font-stretch: normal;
+  font-variation-settings: normal;
+  letter-spacing: -.01em;
+  line-height: 1.25;
+  font-size: 18px;
+  margin: 0;
+}
+.beast-rating__stars { display: flex; gap: 4px; color: var(--beast-rating-star, #00bce7); }
+.beast-rating__stars svg { width: 19px; height: 19px; }
+.beast-rating__card-body { margin: 0; font-size: 15px; line-height: 1.5; }
+.beast-rating__card-by {
+  margin: auto 0 0;
+  padding-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, .58);
+}
+.beast-rating__verified { display: inline-flex; line-height: 0; }
+.beast-rating__verified svg { width: 16px; height: 16px; }
+@media screen and (max-width: 749px) {
+  .beast-rating__cards { grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 28px; }
+}
+
+/* --- footer placement, mirroring mrbeast.store ---------------------------- */
+/* Every rule here carries an extra `.footer` class: Dawn ships the footer's own
+   stylesheet from inside the section, i.e. AFTER this file, so a single-class
+   selector loses the cascade at equal specificity and the grid never applies. */
+@media screen and (min-width: 990px) {
+  /* Newsletter + socials down the left, link columns to the right. */
+  .footer .footer__content-top {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    column-gap: 64px;
+    align-items: start;
+  }
+  .footer .footer-block--newsletter {
+    order: -1;
+    margin: 0;
+    width: 100%;
+    max-width: none;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .footer .footer__blocks-wrapper { margin: 0; }
+  /* Payment block and the legal row sit left, not centred. */
+  .footer .footer__content-bottom-wrapper--center,
+  .footer .footer__content-bottom-wrapper { justify-content: flex-start; }
+  /* The column is flex-direction:column, so align-items is what centres the
+     payment row; Dawn sets it at (0,2,0), hence the extra level here. */
+  /* The rule that centres this column lives in a Shopify-hosted stylesheet on
+     another origin, so it cannot be inspected or out-specified reliably from
+     here; the override is deliberate. */
+  .footer .footer__content-bottom-wrapper .footer__column--info {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    padding: 0;
+  }
+  .footer .footer__copyright { text-align: left; }
+}
+.footer .footer-block--newsletter .footer-block__heading { text-align: left; }
+.footer__content-bottom { border-top: 1px solid rgba(var(--color-foreground), .12); }
+
+/* --- header: persistent pill on the first primary item -------------------- */
+@media screen and (min-width: 990px) {
+  .header__inline-menu .header__menu-item {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .02em;
+  }
+  /* mrbeast.store keeps the first item pilled at rest, not only on hover. */
+  .header__inline-menu > ul > li:first-child .header__menu-item {
+    background-color: #e8eaee;
+  }
+
+  /* Dawn's caret is a 10x6 svg butted straight against the label — measured at
+     -2px, i.e. overlapping it. Give it room, a bit more weight, and a flip. */
+  .header__inline-menu .header__menu-item { gap: 8px; }
+  .header__inline-menu .header__menu-item .icon-caret,
+  .header__inline-menu .header__menu-item svg.icon-caret {
+    /* Dawn pins the caret with position:absolute; right:8px, so on a pill sized
+       to the label it lands ON the text (measured -3px). Making it a real flex
+       item lets the 8px gap above do its job and widens the pill to suit. */
+    position: static;
+    width: 11px;
+    height: 7px;
+    flex: none;
+    transition: transform .18s var(--beast-ease);
+  }
+  .header__inline-menu details[open] > .header__menu-item .icon-caret {
+    transform: rotate(180deg);
+  }
+}
+
+/* --- category cards: a swipe carousel on phones --------------------------- */
+@media screen and (max-width: 749px) {
+  .beast-chips--cards {
+    display: flex;
+    /* .beast-chips sets flex-wrap:wrap and justify-content:center; both have to
+       be unwound here or the cards stack into a column instead of scrolling. */
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 12px;
+    /* bleed past .page-width's 15px gutter so cards run off the screen edge,
+       then pad the first card back onto the gutter line */
+    margin-inline: -1.5rem;
+    padding-inline: 1.5rem;
+    /* Without this the snap origin is the scrollport edge, so the first card
+       snaps flush to x=0 and swallows the gutter it was padded onto. */
+    scroll-padding-inline: 1.5rem;
+  }
+  .beast-chips--cards::-webkit-scrollbar { display: none; }
+  .beast-chips--cards > .beast-card {
+    flex: 0 0 62%;
+    scroll-snap-align: start;
+  }
+}
+
+/* --- footer menus collapse on phones -------------------------------------- */
+.footer-block__accordion { width: 100%; }
+.footer-block__accordion-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+  padding: 15px 0;
+}
+.footer-block__accordion-summary::-webkit-details-marker { display: none; }
+.footer-block__accordion-summary .footer-block__heading { margin: 0; }
+.footer-block__accordion-icon { display: inline-flex; line-height: 0; flex: none; }
+.footer-block__accordion-icon svg { width: 18px; height: 18px; transition: transform .2s var(--beast-ease); }
+.footer-block__accordion[open] .footer-block__accordion-icon svg { transform: rotate(180deg); }
+.footer-block__accordion > .footer-block__details-content { padding-bottom: 14px; margin-top: 0; }
+
+@media screen and (max-width: 749px) {
+  .footer .footer-block--menu { border-bottom: 1px solid rgba(var(--color-foreground), .16); }
+  .footer .footer__content-top { padding-bottom: 12px; }
+  .footer .footer-block--newsletter { margin-top: 26px; }
+  .footer .footer__social-group { margin-top: 24px; }
+  .footer .footer__content-bottom { padding-top: 14px; }
+  .footer .footer-block__newsletter-subtext { margin-bottom: 12px; }
+}
+
+@media screen and (min-width: 750px) {
+  /* Forced open on desktop: the UA hides a closed <details>' content with
+     display:none, which author CSS is allowed to override. */
+  .footer-block__accordion > .footer-block__details-content { display: block; }
+  .footer-block__accordion-summary { pointer-events: none; padding: 0; }
+  .footer-block__accordion-icon { display: none; }
+}
+
+
+/* --- PDP title: fit the longest name on one line ------------------------- */
+/* At 125% stretch the longest title ("MrBeast Panther Classic Tee") needs
+   875px at 40px and wrapped to four lines in a 345px column. Normal width plus
+   a smaller ceiling brings it to ~490px, inside the widened info column. */
+.product__title h1,
+h1.product__title,
+.product__title > * {
+  font-stretch: normal;
+  font-variation-settings: normal;
+  /* Sized so the longest name in the range ("MrBeast Panther Classic Tee")
+     stays on one line: it needs 465px at 26.9px in a 445px column, so the
+     ceiling comes down to 26px and the ramp to 1.9vw. */
+  font-size: clamp(19px, 1.9vw, 26px);
+  line-height: 1.08;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+
+
+/* --- PDP: keep the gallery still when an accordion opens ------------------ */
+/* .product is a flex row with align-items:normal, so the media column
+   stretches to whatever height the info column becomes — opening an accordion
+   grew it 1013px -> 1258px and the images resized with it. */
+@media screen and (min-width: 750px) {
+  .product .product__media-wrapper { align-self: flex-start; }
+}

@@ -1,0 +1,183 @@
+{%- comment -%}
+  Beast feature — a solid brand-colour panel on one half and a full-bleed photo
+  on the other, with a short list of plain facts and an underlined text link.
+  The panel colour is set here rather than through a Dawn colour scheme so the
+  brand primaries can be used directly; text colour is chosen for contrast.
+{%- endcomment -%}
+{%- liquid
+  assign panel = section.settings.panel_colour
+  case panel
+    when 'cyan'
+      assign panel_bg = 'var(--beast-cyan)'
+      assign panel_fg = 'var(--beast-black)'
+    when 'magenta'
+      assign panel_bg = 'var(--beast-magenta)'
+      assign panel_fg = 'var(--beast-black)'
+    when 'blue'
+      assign panel_bg = '#0248b0'
+      assign panel_fg = 'var(--beast-white)'
+    when 'white'
+      assign panel_bg = 'var(--beast-white)'
+      assign panel_fg = 'var(--beast-black)'
+    else
+      assign panel_bg = '#0b0b0b'
+      assign panel_fg = 'var(--beast-white)'
+  endcase
+-%}
+<div class="beast-feature{% if section.settings.reverse %} beast-feature--reverse{% endif %}" style="--beast-panel-bg: {{ panel_bg }}; --beast-panel-fg: {{ panel_fg }};">
+  <div class="beast-feature__panel section-{{ section.id }}-padding">
+    <div class="beast-feature__inner">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="beast-feature__heading">{{ section.settings.heading | newline_to_br }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="beast-feature__text">{{ section.settings.text }}</div>
+      {%- endif -%}
+      {%- if section.blocks.size > 0 -%}
+        <ul class="beast-feature__facts" role="list">
+          {%- for block in section.blocks -%}
+            <li {{ block.shopify_attributes }}>{{ block.settings.fact | escape }}</li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      {%- if section.settings.link_label != blank -%}
+        <a class="beast-textlink" href="{{ section.settings.link | default: '#' }}">
+          {{- section.settings.link_label | escape -}}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="beast-feature__media">
+    {%- if section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 1800
+        | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 50vw, 100vw',
+          widths: '600, 900, 1200, 1800',
+          alt: section.settings.image.alt | default: section.settings.heading
+      }}
+    {%- elsif section.settings.image_asset != blank -%}
+      <img
+        src="{{ section.settings.image_asset | asset_url }}"
+        alt="{{ section.settings.heading | strip_html | escape }}"
+        loading="lazy" width="2000" height="1125"
+      >
+    {%- else -%}
+      <div class="beast-slot"><b>Feature slot</b><span>2000 &times; 1600</span></div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Beast feature",
+  "tag": "section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "select",
+      "id": "panel_colour",
+      "label": "Panel colour",
+      "options": [
+        { "value": "cyan", "label": "MrBeast cyan" },
+        { "value": "magenta", "label": "MrBeast magenta" },
+        { "value": "blue", "label": "Deep blue" },
+        { "value": "black", "label": "Black" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "cyan"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Every Order,\nSame Deal."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_asset",
+      "label": "Image — theme asset",
+      "info": "Filename in assets/. Used when no image is picked."
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "Read the details"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse",
+      "label": "Put the panel on the right",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 24, "max": 160, "step": 4, "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 24, "max": 160, "step": 4, "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Fact",
+      "settings": [
+        {
+          "type": "text",
+          "id": "fact",
+          "label": "Fact",
+          "default": "Dispatched in 1-2 business days"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Beast feature",
+      "blocks": [
+        { "type": "fact" },
+        { "type": "fact" },
+        { "type": "fact" }
+      ]
+    }
+  ]
+}
+{% endschema %}
