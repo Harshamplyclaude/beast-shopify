@@ -14,7 +14,7 @@
     <div class="collection-hero__text-wrapper">
       <h1 class="collection-hero__title">
         <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{- collection.title | escape -}}
+        {{- section.settings.heading | default: collection.title | escape -}}
       </h1>
 
       {%- if section.settings.show_collection_description -%}
@@ -53,6 +53,12 @@
     {
       "type": "paragraph",
       "content": "t:sections.main-collection-banner.settings.paragraph.content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave blank to use the collection title"
     },
     {
       "type": "checkbox",
