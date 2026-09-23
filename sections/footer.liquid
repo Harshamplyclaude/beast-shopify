@@ -349,11 +349,22 @@
               </p>
             {%- endif -%}
             <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
+            {%- comment -%}
+              Razorpay is a third-party gateway, so shop.enabled_payment_types
+              comes back empty; list the icons to show in the theme editor.
+            {%- endcomment -%}
+            {%- assign payment_types = section.settings.payment_icons | split: ',' -%}
+            {%- if payment_types.size == 0 -%}
+              {%- assign payment_types = shop.enabled_payment_types -%}
+            {%- endif -%}
             <ul class="list list-payment" role="list">
-              {%- for type in shop.enabled_payment_types -%}
-                <li class="list-payment__item">
-                  {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-                </li>
+              {%- for type in payment_types -%}
+                {%- assign payment_type = type | strip -%}
+                {%- if payment_type != blank -%}
+                  <li class="list-payment__item">
+                    {{ payment_type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+                  </li>
+                {%- endif -%}
               {%- endfor -%}
             </ul>
           </div>
@@ -548,6 +559,12 @@
       "id": "payment_heading",
       "label": "Payment heading",
       "default": "Secure checkout"
+    },
+    {
+      "type": "text",
+      "id": "payment_icons",
+      "label": "Payment icons",
+      "info": "Comma-separated, e.g. visa, master, rupay, upi. Leave blank to use the payment methods Shopify detects."
     },
     {
       "type": "header",
