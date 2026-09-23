@@ -113,10 +113,65 @@
     nums.forEach(function (n) { io.observe(n); });
   }
 
+
+  // Keep headings on one line: if a heading would wrap, scale its font down
+  // until it fits its box, but never below 45% of its size or 14px. Refits
+  // whenever the box changes size (resize, carousel slide becoming visible).
+  var FIT_SELECTOR = [
+    'main h1', 'main h2', 'main h3', 'main .h0', 'main .h1', 'main .h2'
+  ].join(',');
+  var FIT_SKIP = '.card-wrapper, .card, .product-card-wrapper, .visually-hidden, .cart-item, .totals';
+
+  function fitLine(h) {
+    h.style.fontSize = '';
+    h.style.whiteSpace = '';
+    if (!h.offsetWidth) return;
+    var base = parseFloat(getComputedStyle(h).fontSize);
+    h.style.whiteSpace = 'nowrap';
+    // Measure against the parent's content box: in a flex column a nowrap
+    // heading grows to its text, so its own width can't be trusted.
+    var box = h.parentElement;
+    var bs = getComputedStyle(box);
+    var avail = box.clientWidth - parseFloat(bs.paddingLeft) - parseFloat(bs.paddingRight);
+    var mw = getComputedStyle(h).maxWidth;
+    if (/px$/.test(mw)) avail = Math.min(avail, parseFloat(mw));
+    var need = h.scrollWidth;
+    if (need <= avail + 1) { h.style.whiteSpace = ''; return; }
+    var size = Math.floor(base * avail / need * 10) / 10;
+    var floor = Math.max(14, base * 0.45);
+    if (size < floor) { h.style.whiteSpace = ''; h.style.fontSize = floor + 'px'; return; }
+    h.style.fontSize = size + 'px';
+  }
+
+  var fitObserver = 'ResizeObserver' in window ? new ResizeObserver(function (entries) {
+    entries.forEach(function (e) {
+      (e.target.__beastFit || []).forEach(fitLine);
+    });
+  }) : null;
+
+  function initFit(scope) {
+    (scope || document).querySelectorAll(FIT_SELECTOR).forEach(function (h) {
+      if (h.hasAttribute('data-fit-line') || h.closest(FIT_SKIP)) return;
+      h.setAttribute('data-fit-line', '');
+      fitLine(h);
+      var box = h.parentElement;
+      if (fitObserver && box) {
+        if (!box.__beastFit) { box.__beastFit = []; fitObserver.observe(box); }
+        box.__beastFit.push(h);
+      }
+    });
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () {
+      document.querySelectorAll('[data-fit-line]').forEach(fitLine);
+    });
+  }
+
   function boot(scope) {
     (scope || document).querySelectorAll('[data-beast-hero]').forEach(initHero);
     (scope || document).querySelectorAll('[data-beast-carousel]').forEach(initCarousel);
     (scope || document).querySelectorAll('[data-beast-stats]').forEach(initStats);
+    initFit(scope);
   }
 
   if (document.readyState === 'loading') {

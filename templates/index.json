@@ -19,7 +19,7 @@
             "image_mobile_asset": "beast-hero-1-mobile.webp",
             "slot_label": "Hero 1 — main seasonal banner",
             "eyebrow": "",
-            "heading": "Officially\nin India.",
+            "heading": "Officially in India.",
             "text": "Official MrBeast clothing, now available in India.",
             "link_label": "Shop the range",
             "link": "/collections/all",
@@ -49,7 +49,7 @@
             "image_mobile_asset": "beast-hero-3-mobile.webp",
             "slot_label": "Hero 3 — adult line",
             "eyebrow": "",
-            "heading": "Wear it\nloud",
+            "heading": "Wear it loud",
             "text": "Black, white, blue, grey, red. Pick the one that sounds like you.",
             "link_label": "Adults",
             "link": "/collections/adults",
@@ -102,7 +102,7 @@
       "settings": {
         "image_asset": "beast-band.webp",
         "eyebrow": "Official MrBeast",
-        "heading": "You've watched it.\nNow wear it.",
+        "heading": "You've watched it. Now wear it.",
         "text": "<p>MrBeast has been on your screen long enough. Now the official MrBeast apparel is here in India.</p><p>Official designs. Classic fits. Bold graphics. Every tee is 100% cotton single jersey with a woven Beast label at the hem.</p>",
         "link_label": "Shop MrBeast clothing",
         "link": "/collections/all",
@@ -115,7 +115,7 @@
       "blocks": {
         "tb1": {"type": "promise", "settings": {"icon": "icon-box", "label": "Free shipping ₹999+", "link": "/pages/shipping"}},
         "tb2": {"type": "promise", "settings": {"icon": "icon-return", "label": "30-day exchanges", "link": "/pages/returns-exchanges"}},
-        "tb3": {"type": "promise", "settings": {"icon": "icon-heart", "label": "1% donated", "link": "/pages/about"}}
+        "tb3": {"type": "promise", "settings": {"icon": "icon-heart", "label": "1% donated", "link": "/pages/philanthropy"}}
       },
       "block_order": ["tb1", "tb2", "tb3"],
       "settings": {
@@ -130,11 +130,11 @@
       "type": "beast-feature",
       "settings": {
         "panel_colour": "blue",
-        "heading": "We Give Back,\nIn a Big Way.",
+        "heading": "We Give Back, In a Big Way.",
         "text": "<p>Doing good has always been part of the Beast way of doing things. As MrBeast's impact in India grows, we'll show you where your support helps us do more.</p>",
         "image_asset": "beast-philanthropy.webp",
         "link_label": "Learn more",
-        "link": "https://mrbeast.store/pages/philanthropy",
+        "link": "/pages/philanthropy",
         "reverse": false,
         "padding_top": 80,
         "padding_bottom": 80
@@ -145,7 +145,7 @@
       "settings": {
         "product": "",
         "image_asset": "beast-book.webp",
-        "heading": "The Book\nEvent Of The Year",
+        "heading": "The Book Event Of The Year",
         "text": "<p>Enter the competition for your chance at $1,000,000. The book is your way in.</p>",
         "link_label": "Shop the book",
         "link": "https://mrbeast.store/products/the-most-dangerous-games-book",

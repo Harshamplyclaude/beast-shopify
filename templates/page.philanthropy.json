@@ -1,0 +1,112 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "intro": {
+      "type": "beast-feature",
+      "settings": {
+        "panel_colour": "blue",
+        "heading": "Kindness, turned up loud.",
+        "text": "<p>MrBeast built the biggest channel on the planet by giving things away. Beast Philanthropy takes that same energy and points it at people who really need it.</p>",
+        "image_asset": "beast-philanthropy.webp",
+        "link_label": "Shop to support",
+        "link": "/collections/all",
+        "reverse": false,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "what": {
+      "type": "beast-band",
+      "settings": {
+        "image_asset": "beast-band.webp",
+        "eyebrow": "Learn",
+        "heading": "What is Beast Philanthropy?",
+        "text": "<p>It's the charity MrBeast started, a registered 501(c)(3) nonprofit in the US. It uses his huge online audience to raise money and get food, aid and support to communities around the world.</p><p>The bigger aim is to get a whole generation caring more and doing more.</p>",
+        "link_label": "Learn more",
+        "link": "https://www.beastphilanthropy.org/",
+        "reverse": false,
+        "color_scheme": "scheme-3"
+      }
+    },
+    "numbers": {
+      "type": "beast-stats",
+      "blocks": {
+        "n1": {"type": "stat", "settings": {"value": "55824283", "prefix": "", "suffix": "+", "label": "Pounds of food"}},
+        "n2": {"type": "stat", "settings": {"value": "46520235", "prefix": "", "suffix": "+", "label": "Meals delivered"}},
+        "n3": {"type": "stat", "settings": {"value": "8186988", "prefix": "", "suffix": "+", "label": "People fed"}}
+      },
+      "block_order": ["n1", "n2", "n3"],
+      "settings": {
+        "heading": "The impact so far",
+        "subheading": "Figures reported by Beast Philanthropy.",
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "vision": {
+      "type": "beast-band",
+      "settings": {
+        "image_asset": "beast-hero-1-desktop.webp",
+        "eyebrow": "Learn",
+        "heading": "Where it's heading",
+        "text": "<p>A one-off giveaway makes a great video. What Beast Philanthropy is really after is fans who see it and think: I could do that on my street.</p><p>Every video is a nudge to go and help someone yourself.</p>",
+        "link_label": "Learn more",
+        "link": "https://www.beastphilanthropy.org/",
+        "reverse": true,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "help": {
+      "type": "multicolumn",
+      "blocks": {
+        "h1": {"type": "column", "settings": {"title": "Shop official merch", "text": "<p>Pick up official MrBeast apparel here in India and wear the Beast brand with pride.</p>", "link_label": "Shop now", "link": "/collections/all"}},
+        "h2": {"type": "column", "settings": {"title": "Volunteer", "text": "<p>Want to get your hands dirty? See where Beast Philanthropy needs people and sign up to pitch in.</p>", "link_label": "Join the cause", "link": "https://www.beastphilanthropy.org/"}},
+        "h3": {"type": "column", "settings": {"title": "Donate and sponsor", "text": "<p>Chip in directly on the Beast Philanthropy site, or talk to them about partnering as a brand.</p>", "link_label": "Donate here", "link": "https://www.beastphilanthropy.org/"}},
+        "h4": {"type": "column", "settings": {"title": "Watch, like and share", "text": "<p>Beast Philanthropy gives the revenue from its YouTube channel to charity, so watching and sharing its videos helps too.</p>", "link_label": "Watch our videos", "link": "https://www.youtube.com/@BeastPhilanthropy"}}
+      },
+      "block_order": ["h1", "h2", "h3", "h4"],
+      "settings": {
+        "title": "How you can help",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 4,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "color_scheme": "scheme-1",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "shop": {
+      "type": "beast-carousel",
+      "settings": {
+        "heading": "Wear the Beast",
+        "subheading": "Official MrBeast tees, made for fans in India.",
+        "collection": "best-sellers",
+        "products_to_show": 12,
+        "show_secondary_image": true,
+        "show_rating": false,
+        "quick_add": false,
+        "button_label": "Shop the collection",
+        "color_scheme": "scheme-1",
+        "padding_top": 24,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": ["intro", "what", "numbers", "vision", "help", "shop"]
+}

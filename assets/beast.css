@@ -197,9 +197,9 @@ h1, h2, h3, h4, h5,
   letter-spacing: .18em;
   line-height: 1.4;
 }
-.beast-hero__title { color: var(--beast-white); max-width: 16ch; }
+.beast-hero__title { color: var(--beast-white); }
 .beast-hero__text {
-  max-width: 46ch;
+  max-width: 60ch;
   color: rgba(255,255,255,.92);
   margin: 0;
   font-size: clamp(16px, 1.45vw, 19px);
@@ -260,7 +260,6 @@ h1, h2, h3, h4, h5,
     justify-content: flex-end; align-items: flex-start;
     padding-bottom: 54px; gap: 12px;
   }
-  .beast-hero__title { max-width: 14ch; }
   .beast-hero__text { font-size: 15px; max-width: 34ch; }
   .beast-hero__arrow { display: none; }
 }
@@ -661,9 +660,10 @@ a.beast-trust-strip__label:hover { color: var(--beast-magenta); }
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  max-width: 42ch;
+  width: 100%;
   text-align: center;
 }
+.beast-spotlight__text { max-width: 42ch; }
 .beast-spotlight__eyebrow {
   margin: 0;
   font-family: var(--font-sub);
@@ -710,9 +710,10 @@ a.beast-trust-strip__label:hover { color: var(--beast-magenta); }
   flex-direction: column;
   align-items: center;
   gap: 18px;
-  max-width: 44ch;
+  width: 100%;
   text-align: center;
 }
+.beast-feature__text { max-width: 44ch; }
 .beast-feature__heading { font-size: clamp(26px, 2.8vw, 44px); }
 .beast-feature__text {
   font-size: clamp(14px, 1vw, 17px);
@@ -1165,4 +1166,29 @@ h1.product__title,
    grew it 1013px -> 1258px and the images resized with it. */
 @media screen and (min-width: 750px) {
   .product .product__media-wrapper { align-self: flex-start; }
+}
+
+
+/* --- Headings: one line --------------------------------------------------- */
+/* beast.js shrinks any heading that would wrap until it fits on one line;
+   until it runs (and if it can't fit above the floor) wrap evenly. */
+[data-fit-line] { text-wrap: balance; }
+
+
+/* --- PDP: gallery takes 70% of the row on desktop ------------------------- */
+/* Extra .product class so this outranks section-main-product.css, which
+   loads later in the page. */
+@media screen and (min-width: 990px) {
+  .product.product:not(.product--no-media) .product__media-wrapper {
+    max-width: 70%;
+    width: calc(70% - var(--grid-desktop-horizontal-spacing) / 2);
+  }
+  .product.product:not(.product--no-media) .product__info-wrapper {
+    max-width: 30%;
+    width: calc(30% - var(--grid-desktop-horizontal-spacing) / 2);
+    padding: 0 0 0 4rem;
+  }
+  .product.product--right.product:not(.product--no-media) .product__info-wrapper {
+    padding: 0 4rem 0 0;
+  }
 }
