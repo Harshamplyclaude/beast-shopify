@@ -1,0 +1,13 @@
+{
+  "name": "islands-gst-app",
+  "private": true,
+  "description": "Islands GST Desk: GST working (GSTR-1, GSTR-3B, invoice register, CA Excel) inside Shopify admin.",
+  "scripts": {
+    "test": "node test/engine.test.js",
+    "link": "shopify app config link",
+    "deploy": "shopify app deploy"
+  },
+  "devDependencies": {
+    "@shopify/cli": "^3"
+  }
+}

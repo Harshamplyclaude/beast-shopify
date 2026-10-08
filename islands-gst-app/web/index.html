@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Your app's Client ID from the Shopify Dev Dashboard (app → Settings). Must match client_id in shopify.app.toml. -->
+<meta name="shopify-api-key" content="REPLACE_WITH_CLIENT_ID">
+<script src="https://cdn.shopify.com/shopifycloud/app-bridge.js"></script>
+<title>Islands GST Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@80,600;80,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a tax ledger desk inside Shopify admin. Control strip on top, tabbed registers below, numbers in mono so columns line up. */
+:root {
+  --bg: #F1F2F4; --surface: #FFFFFF; --sunk: #EBEEF2; --ink: #17212B; --muted: #5A6672; --line: #D6DCE3;
+  --accent: #2B3C9E; --accent-ink: #FFFFFF; --accent-soft: #E5E8F6;
+  --ok: #1D7447; --ok-soft: #E2F1E8; --warn: #8F5300; --warn-soft: #FBEFD9; --bad: #B0261E; --bad-soft: #FAE6E4;
+  --f-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --r: 6px; color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 var(--f-body); }
+[hidden] { display: none !important; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 16px; padding-block: 18px 48px; display: grid; gap: 14px; }
+.wrap > *, main { min-width: 0; }
+#shopLine { overflow-wrap: anywhere; }
+h1, h2, h3 { font-family: var(--f-display); font-stretch: 80%; text-wrap: balance; margin: 0; letter-spacing: .005em; }
+h1 { font-size: 1.55rem; line-height: 1.1; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: .98rem; }
+p { margin: 0; }
+.num, td.n, th.n { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.small { font-size: .85rem; }
+.eyebrow { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 24px; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.seal { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--accent); color: var(--accent); display: grid; place-items: center;
+  font: 700 .72rem/1 var(--f-display); font-stretch: 80%; letter-spacing: .06em; transform: rotate(-8deg); flex: none; }
+.run { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px; }
+.field { display: grid; gap: 4px; }
+label { font-size: .78rem; font-weight: 600; color: var(--muted); }
+select, input, button { font: inherit; color: var(--ink); }
+select, input[type=text], input[type=number] { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 7px 10px; min-height: 36px; }
+input[type=number] { font-family: var(--f-mono); }
+button { cursor: pointer; border-radius: var(--r); padding: 7px 14px; min-height: 36px; border: 1px solid var(--line); background: var(--surface); font-weight: 500; }
+button:hover:not(:disabled) { border-color: var(--accent); }
+button:disabled { opacity: .5; cursor: not-allowed; }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+button.link { border: 0; background: none; padding: 2px 4px; min-height: 0; color: var(--accent); font-weight: 500; text-decoration: underline; text-underline-offset: 2px; }
+button.danger { color: var(--bad); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.status { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; min-height: 22px; font-size: .86rem; color: var(--muted); }
+.status .msg { color: var(--ink); }
+.status.err .msg { color: var(--bad); }
+.spinner { width: 12px; height: 12px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; display: inline-block; vertical-align: -1px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: thin; }
+.tabs button { border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: none; padding: 9px 12px; color: var(--muted); white-space: nowrap; font-weight: 500; }
+.tabs button[aria-selected=true] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+.badge { display: inline-block; min-width: 18px; padding: 0 6px; margin-left: 6px; border-radius: 9px; font: 600 .72rem/18px var(--f-mono); text-align: center; background: var(--warn-soft); color: var(--warn); }
+.badge.bad { background: var(--bad-soft); color: var(--bad); }
+
+.panel { display: grid; gap: 16px; min-width: 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; display: grid; gap: 12px; min-width: 0; align-content: start; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px; }
+
+.headline { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 2fr); gap: 16px; }
+@media (max-width: 760px) { .headline { grid-template-columns: 1fr; } }
+.payable { background: var(--accent-soft); border: 1px solid var(--line); border-radius: 8px; padding: 18px; display: grid; gap: 6px; align-content: start; }
+.payable .big { font: 500 2.2rem/1.1 var(--f-mono); font-variant-numeric: tabular-nums; letter-spacing: -.01em; overflow-wrap: anywhere; }
+.split { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 6px; }
+.split div { display: grid; gap: 2px; }
+.split .num { font-size: .98rem; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); overflow: hidden; }
+.stats > div { padding: 14px 16px; display: grid; gap: 4px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 0 -1px -1px 0; }
+.stats .num { font-size: 1.15rem; }
+
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .86rem; }
+th, td { padding: 7px 10px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: .74rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--sunk); white-space: nowrap; position: sticky; top: 0; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+tr.total td { font-weight: 600; background: var(--sunk); border-bottom: 0; }
+tr:last-child td { border-bottom: 0; }
+td .sub { display: block; color: var(--muted); font-size: .78rem; }
+.tbl.tall { max-height: 560px; overflow: auto; }
+
+.pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: .74rem; font-weight: 600; white-space: nowrap; background: var(--sunk); color: var(--muted); }
+.pill.ok { background: var(--ok-soft); color: var(--ok); }
+.pill.warn { background: var(--warn-soft); color: var(--warn); }
+.pill.bad { background: var(--bad-soft); color: var(--bad); }
+.pill.acc { background: var(--accent-soft); color: var(--accent); }
+
+.issues { display: grid; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.issue { display: grid; grid-template-columns: 6px minmax(0, 1fr) auto; gap: 12px; padding: 12px 14px 12px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.issue:last-child { border-bottom: 0; }
+.issue .stripe { align-self: stretch; border-radius: 0 3px 3px 0; background: var(--line); }
+.issue.bad .stripe { background: var(--bad); }
+.issue.warn .stripe { background: var(--warn); }
+.issue.info .stripe { background: var(--accent); }
+.issue .t { font-weight: 600; }
+.issue .actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+
+.empty { display: grid; gap: 14px; padding: 22px; background: var(--surface); border: 1px dashed var(--line); border-radius: 8px; }
+.rules { display: grid; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.rules li { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 12px; padding-top: 8px; border-top: 1px solid var(--line); }
+.rules li b { font-family: var(--f-mono); font-weight: 500; color: var(--accent); }
+.note { padding: 10px 12px; border-radius: var(--r); background: var(--warn-soft); color: var(--ink); border: 1px solid var(--line); font-size: .88rem; }
+.note.info { background: var(--accent-soft); }
+.form { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.hsn-in { width: 7.5em; }
+.rate-in { width: 5em; }
+.desc-in { width: 100%; min-width: 12em; }
+.inline-confirm { display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+</style>
+</head>
+<body>
+<ui-title-bar title="Islands GST Desk"></ui-title-bar>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="seal" aria-hidden="true">GST</div>
+      <div>
+        <h1>Islands GST Desk</h1>
+        <p class="muted small" id="shopLine">GSTR-1 and GSTR-3B working from your Shopify orders</p>
+      </div>
+    </div>
+    <form class="run" id="runForm">
+      <div class="field">
+        <label for="month">Return period</label>
+        <select id="month"></select>
+      </div>
+      <button class="primary" id="runBtn" type="submit">Calculate</button>
+      <button id="xlsxBtn" type="button" disabled>Download Excel for CA</button>
+    </form>
+  </header>
+
+  <div class="status" id="status" role="status" aria-live="polite"></div>
+
+  <nav class="tabs" role="tablist" aria-label="Sections" id="tabs">
+    <button role="tab" data-tab="overview" aria-selected="true">Overview</button>
+    <button role="tab" data-tab="review" aria-selected="false">Review<span class="badge" id="reviewBadge" hidden></span></button>
+    <button role="tab" data-tab="invoices" aria-selected="false">Invoices</button>
+    <button role="tab" data-tab="lines" aria-selected="false">Line items</button>
+    <button role="tab" data-tab="gstr1" aria-selected="false">GSTR-1</button>
+    <button role="tab" data-tab="gstr3b" aria-selected="false">GSTR-3B</button>
+    <button role="tab" data-tab="settings" aria-selected="false">Settings &amp; HSN</button>
+  </nav>
+
+  <main>
+    <section class="panel" id="p-overview"></section>
+    <section class="panel" id="p-review" hidden></section>
+    <section class="panel" id="p-invoices" hidden></section>
+    <section class="panel" id="p-lines" hidden></section>
+    <section class="panel" id="p-gstr1" hidden></section>
+    <section class="panel" id="p-gstr3b" hidden></section>
+    <section class="panel" id="p-settings" hidden></section>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="gst-engine.js"></script>
+<script src="defaults.js"></script>
+<script>
+// ---------- Shopify Admin API (Direct API access through App Bridge; no server) ----------
+const API = "shopify:admin/api/2026-07/graphql.json";
+const NS = "gst_desk"; // app-data metafields on this app's installation: settings, hsn, dummy, periods
+const ORDERS_QUERY = `query GstOrders($first: Int!, $after: String, $q: String) { orders(first: $first, after: $after, sortKey: PROCESSED_AT, query: $q) { pageInfo { hasNextPage endCursor } nodes { id name processedAt cancelledAt test displayFinancialStatus displayFulfillmentStatus paymentGatewayNames discountCodes shippingAddress { name city provinceCode zip } billingAddress { name city provinceCode zip } totalShippingPriceSet { shopMoney { amount } } currentTotalPriceSet { shopMoney { amount } } totalPriceSet { shopMoney { amount } } lineItems(first: 30) { nodes { title variantTitle sku vendor quantity currentQuantity isGiftCard product { productType } originalUnitPriceSet { shopMoney { amount } } discountedUnitPriceAfterAllDiscountsSet { shopMoney { amount } } taxLines { rate priceSet { shopMoney { amount } } } } } } } }`;
+const STORE_QUERY = `query GstStore { shop { name myshopifyDomain } currentAppInstallation { id metafields(first: 10, namespace: "${NS}") { nodes { key value } } } }`;
+const SAVE_MUTATION = `mutation GstSave($m: [MetafieldsSetInput!]!) { metafieldsSet(metafields: $m) { metafields { key } userErrors { field message } } }`;
+
+const S = { inShopify: typeof window.shopify !== "undefined", installId: null, ready: false,
+  settings: { ...DEFAULT_SETTINGS }, hsnList: [], hsn: new Map(), dummyList: [], dummy: new Map(), periods: [],
+  orders: null, shop: null, fetchedAt: null, report: null, busy: false, tab: "overview", confirm: null };
+
+const $ = sel => document.querySelector(sel);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const nf = new Intl.NumberFormat("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const inr = p => (p < 0 ? "−₹" : "₹") + nf.format(Math.abs(p) / 100);
+const amt = p => p === 0 ? "–" : (p < 0 ? "−" : "") + nf.format(Math.abs(p) / 100);
+const pct = r => `${r}%`;
+const paiseOf = v => Math.round(Number(v || 0) * 100);
+const fmtDate = d => { try { return new Date(d + "T00:00:00").toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }); } catch (e) { return d; } };
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const toast = (msg, isError) => { try { window.shopify && shopify.toast.show(msg, { isError: !!isError }); } catch (e) {} };
+const busyBar = on => { try { window.shopify && shopify.loading(on); } catch (e) {} };
+
+function setStatus(html, kind) { const el = $("#status"); el.className = "status" + (kind === "err" ? " err" : ""); el.innerHTML = html; }
+
+async function gql(query, variables) {
+  for (let attempt = 0; attempt < 4; attempt++) {
+    let res;
+    try { res = await fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query, variables }) }); }
+    catch (e) { throw { code: "network", message: "Couldn't reach Shopify. Check your connection and try again." }; }
+    if (res.status === 401 || res.status === 403) throw { code: "auth", message: "Shopify refused the request. Open the app again from Apps in your Shopify admin; if it keeps happening, reinstall it so it gets its permissions." };
+    if (res.status === 429) { await sleep(1500 * (attempt + 1)); continue; }
+    if (!res.ok) throw { code: "http", message: `Shopify answered with error ${res.status}. Try again in a minute.` };
+    const body = await res.json();
+    if (body.errors && body.errors.some(e => e.extensions && e.extensions.code === "THROTTLED")) { await sleep(1500 * (attempt + 1)); continue; }
+    if (body.errors && !body.data) {
+      const msg = body.errors[0] && body.errors[0].message || "unknown error";
+      if (/access denied|not approved|protected customer/i.test(msg)) throw { code: "scope", message: "The app isn't allowed to read order addresses yet. In the Dev Dashboard, turn on protected customer data (Name and Address) for this app, then reload." };
+      throw { code: "graphql", message: "Shopify rejected the query: " + msg };
+    }
+    return body.data;
+  }
+  throw { code: "throttled", message: "Shopify is busy right now. Wait a minute and click Calculate again." };
+}
+
+// ---------- saved data (app-data metafields) ----------
+function applyStore() {
+  S.hsn = new Map(S.hsnList.map(h => [normTitle(h.product), h]));
+  S.dummy = new Map(S.dummyList.map(d => [d.order, d]));
+}
+async function loadStore() {
+  const d = await gql(STORE_QUERY);
+  S.shop = d.shop; S.installId = d.currentAppInstallation.id;
+  const saved = Object.fromEntries((d.currentAppInstallation.metafields.nodes || []).map(n => { try { return [n.key, JSON.parse(n.value)]; } catch (e) { return [n.key, null]; } }));
+  const seed = [];
+  S.settings = { ...DEFAULT_SETTINGS, ...(saved.settings || ISLANDS_DEFAULTS.settings) };
+  S.hsnList = saved.hsn || ISLANDS_DEFAULTS.hsn;
+  S.dummyList = saved.dummy || ISLANDS_DEFAULTS.dummy;
+  S.periods = saved.periods || ISLANDS_DEFAULTS.periods;
+  for (const k of ["settings", "hsn", "dummy", "periods"]) if (!saved[k]) seed.push(k);
+  applyStore();
+  if (seed.length) await persist(...seed);
+  $("#shopLine").textContent = `${S.shop.name} · ${S.shop.myshopifyDomain}`;
+  S.ready = true;
+}
+async function persist(...keys) {
+  const value = { settings: S.settings, hsn: S.hsnList, dummy: S.dummyList, periods: S.periods };
+  try {
+    const d = await gql(SAVE_MUTATION, { m: keys.map(k => ({ ownerId: S.installId, namespace: NS, key: k, type: "json", value: JSON.stringify(value[k]) })) });
+    const errs = d.metafieldsSet.userErrors || [];
+    if (errs.length) throw { message: errs[0].message };
+    return true;
+  } catch (e) { toast("Couldn't save: " + (e.message || "try again"), true); setStatus(`<span class="msg">Couldn't save your change: ${esc(e.message || "try again")}.</span>`, "err"); return false; }
+}
+function changed() { applyStore(); recompute(); }
+
+// ---------- month picker ----------
+(function initMonths() {
+  const sel = $("#month"); const now = new Date();
+  let saved = null; try { saved = localStorage.getItem("gstdesk.month"); } catch (e) {}
+  const opts = [];
+  for (let i = 0; i < 18; i++) { const d = new Date(Date.UTC(now.getFullYear(), now.getMonth() - i, 1)); opts.push(`${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`); }
+  const def = saved && opts.includes(saved) ? saved : opts[1];
+  sel.innerHTML = opts.map(m => `<option value="${m}"${m === def ? " selected" : ""}>${esc(monthName(m))}${m === opts[0] ? " (so far)" : ""}</option>`).join("");
+  sel.addEventListener("change", () => { try { localStorage.setItem("gstdesk.month", sel.value); } catch (e) {} if (S.report && S.report.month !== sel.value) { S.report = null; S.orders = null; renderAll(); setStatus(""); } });
+})();
+
+// ---------- tabs ----------
+function showTab(t) {
+  S.tab = t;
+  document.querySelectorAll("#tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === t)));
+  document.querySelectorAll("main > section").forEach(s => { s.hidden = s.id !== "p-" + t; });
+}
+$("#tabs").addEventListener("click", e => { const b = e.target.closest("button[data-tab]"); if (b) showTab(b.dataset.tab); });
+document.addEventListener("click", e => { const g = e.target.closest("[data-goto]"); if (g) { showTab(g.dataset.goto); window.scrollTo({ top: 0 }); } });
+
+// ---------- calculate ----------
+async function fetchMonth(month) {
+  const { from, to } = monthRangeUTC(month);
+  const q = `processed_at:>=${from} AND processed_at:<${to}`;
+  const all = []; let after = null, pages = 0;
+  do {
+    const d = await gql(ORDERS_QUERY, { first: 25, after, q });
+    all.push(...d.orders.nodes);
+    after = d.orders.pageInfo.hasNextPage ? d.orders.pageInfo.endCursor : null;
+    pages++;
+    setStatus(`<span class="spinner" aria-hidden="true"></span><span class="msg">Reading orders… ${all.length} so far</span>`);
+  } while (after && pages < 200);
+  return all;
+}
+function ctx() { return { settings: S.settings, hsn: S.hsn, dummy: S.dummy, periods: S.periods }; }
+function recompute() { if (S.orders && S.report) S.report = computeReport(S.orders, S.report.month, ctx()); renderAll(); }
+
+async function calculate() {
+  if (S.busy) return;
+  if (!S.inShopify) { setStatus(`<span class="msg">Open this app from Apps in your Shopify admin. It reads orders through Shopify, so it can't run on its own.</span>`, "err"); return; }
+  const month = $("#month").value;
+  S.busy = true; $("#runBtn").disabled = true; $("#xlsxBtn").disabled = true; busyBar(true);
+  setStatus(`<span class="spinner" aria-hidden="true"></span><span class="msg">Reading ${esc(monthName(month))} orders from Shopify…</span>`);
+  try {
+    if (!S.ready) await loadStore();
+    const orders = await fetchMonth(month);
+    S.orders = orders; S.fetchedAt = new Date();
+    S.report = computeReport(orders, month, ctx());
+    renderAll();
+    const oldest = new Date(Date.now() - 60 * 864e5).toISOString().slice(0, 7);
+    if (month < oldest && orders.length === 0) setStatus(`<span class="msg">No orders came back for ${esc(monthName(month))}. Shopify only lets apps read the last 60 days of orders unless the app has the "read all orders" permission.</span>`, "err");
+  } catch (err) {
+    setStatus(`<span class="msg">${esc(err.message || "Something went wrong reading Shopify. Try again.")}</span>`, "err");
+  } finally { S.busy = false; $("#runBtn").disabled = false; $("#xlsxBtn").disabled = !S.report; busyBar(false); }
+}
+$("#runForm").addEventListener("submit", e => { e.preventDefault(); calculate(); });
+
+// ---------- render: overview ----------
+function statusLine() {
+  const r = S.report; if (!r) return;
+  const bad = r.flags.filter(f => f.sev === "bad").length, warn = r.flags.filter(f => f.sev === "warn").length;
+  const when = S.fetchedAt ? S.fetchedAt.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }) : "";
+  setStatus(`<span class="msg">${esc(monthName(r.month))}: ${S.orders.length} Shopify orders → ${r.invoices.length} invoices, ${r.excluded.length} left out.</span>` +
+    `<span>Read at ${esc(when)}</span>` + (bad + warn ? `<button class="link" type="button" data-goto="review">${bad + warn} item${bad + warn > 1 ? "s" : ""} to review</button>` : `<span class="pill ok">Nothing to review</span>`));
+  const b = $("#reviewBadge"); b.hidden = !(bad + warn); b.textContent = bad + warn; b.className = "badge" + (bad ? " bad" : "");
+}
+function lockedTable() {
+  if (!S.periods.length) return `<p class="muted">No months locked yet. After a month is filed, lock it so the next month's invoice numbers carry on from it.</p>`;
+  const rows = S.periods.slice().sort((a, b) => a.month < b.month ? 1 : -1).map(p => `<tr><td>${esc(monthName(p.month))}</td><td class="num">${esc(p.prefix || "")}${String(p.firstNo).padStart(4, "0")} – ${String(p.lastNo).padStart(4, "0")}</td><td class="n">${p.count}</td><td class="n">${inr(paiseOf(p.taxable))}</td><td class="n">${inr(paiseOf(p.gst))}</td><td>${p.lockedAt ? esc(fmtDate(String(p.lockedAt).slice(0, 10))) : ""}</td></tr>`).join("");
+  return `<div class="tbl"><table><thead><tr><th>Month</th><th>Invoice range</th><th class="n">Invoices</th><th class="n">Taxable</th><th class="n">GST</th><th>Locked</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function renderOverview() {
+  const el = $("#p-overview"); const r = S.report; const st = S.settings;
+  if (!r) {
+    el.innerHTML = `<div class="empty">
+      <div class="grid2">
+        <div style="display:grid;gap:10px;align-content:start">
+          <span class="eyebrow">How it works</span>
+          <h2>Pick a month and click Calculate.</h2>
+          <p class="muted">The app reads every order processed in that month (India time), leaves out test, cancelled, voided and dummy orders, and works out GST line by line. You get the invoice register, GSTR-1 tables and GSTR-3B figures, plus an Excel file for the CA.</p>
+          ${S.inShopify ? "" : `<p class="note">This page only works inside Shopify admin. Open it from Apps → Islands GST Desk.</p>`}
+        </div>
+        <ul class="rules">
+          <li><b>${pct(st.lowRate)} / ${pct(st.highRate)}</b><span>Apparel: ${pct(st.lowRate)} when the price per piece before GST is ₹${nf.format(st.threshold).replace(".00", "")} or less after discount, ${pct(st.highRate)} above.</span></li>
+          <li><b>${pct(st.noticeRate)}</b><span>Notice and other home objects. Per-product rates and HSN codes live in Settings &amp; HSN.</span></li>
+          <li><b>Shipping</b><span>Taxed at the highest rate in its order, because shipping is part of the supply.</span></li>
+          <li><b>POS</b><span>Place of supply is the delivery state. ${esc(STATES[st.homeState] ? STATES[st.homeState][1] : st.homeState)} orders get CGST + SGST; everyone else gets IGST.</span></li>
+        </ul>
+      </div>
+      <div style="display:grid;gap:8px"><h3>Locked months</h3>${lockedTable()}</div>
+    </div>`;
+    return;
+  }
+  const t = r.totals; const name = monthName(r.month);
+  const lockBtn = r.lock ? `<span class="pill ok">Invoice numbers locked</span>` :
+    (S.confirm === "lock" ? `<span class="inline-confirm"><span class="small">Lock ${r.invoices.length} invoice numbers for ${esc(name)}?</span><button class="primary" type="button" id="lockYes">Lock</button><button type="button" id="lockNo">Cancel</button></span>`
+      : `<button type="button" id="lockBtn">Lock ${esc(name)} invoice numbers</button>`);
+  const diff = t.gst - t.shopTax;
+  el.innerHTML = `
+    <div class="headline">
+      <div class="payable">
+        <span class="eyebrow">GST on ${esc(name)} sales, before input credit</span>
+        <span class="big">${inr(t.gst)}</span>
+        <div class="split">
+          <div><span class="eyebrow">IGST</span><span class="num">${inr(t.igst)}</span></div>
+          <div><span class="eyebrow">CGST</span><span class="num">${inr(t.cgst)}</span></div>
+          <div><span class="eyebrow">SGST</span><span class="num">${inr(t.sgst)}</span></div>
+        </div>
+      </div>
+      <div class="stats">
+        <div><span class="eyebrow">Invoices</span><span class="num">${t.invoices}</span><span class="small muted">${esc(r.docs.from || "–")} to ${esc((r.docs.to || "–").replace(r.prefix, ""))}</span></div>
+        <div><span class="eyebrow">Sales incl. GST</span><span class="num">${inr(t.value)}</span><span class="small muted">after ${inr(t.discount)} discounts</span></div>
+        <div><span class="eyebrow">Taxable value</span><span class="num">${inr(t.taxable)}</span><span class="small muted">goes in GSTR-1 and 3B</span></div>
+        <div><span class="eyebrow">Collected per Shopify</span><span class="num">${inr(t.collected)}</span><span class="small muted">${t.collected === t.value ? "matches invoices" : `<span class="pill bad">off by ${inr(t.collected - t.value)}</span>`}</span></div>
+      </div>
+    </div>
+    <div class="row" style="justify-content:space-between"><p class="small muted">${esc(r.numbering)}</p>${lockBtn}</div>
+    <div class="grid2">
+      <div class="card"><h3>By GST rate</h3><div class="tbl"><table><thead><tr><th>Rate</th><th class="n">Taxable</th><th class="n">GST</th><th class="n">Incl. GST</th></tr></thead><tbody>
+        ${r.byRate.map(x => `<tr><td>${pct(x.rate)}</td><td class="n">${amt(x.taxable)}</td><td class="n">${amt(x.gst)}</td><td class="n">${amt(x.value)}</td></tr>`).join("")}
+        <tr class="total"><td>Total</td><td class="n">${amt(t.taxable)}</td><td class="n">${amt(t.gst)}</td><td class="n">${amt(t.value)}</td></tr></tbody></table></div></div>
+      <div class="card"><h3>By brand</h3><div class="tbl"><table><thead><tr><th>Brand</th><th class="n">Units</th><th class="n">Incl. GST</th><th class="n">GST</th></tr></thead><tbody>
+        ${r.byBrand.map(x => `<tr><td>${esc(x.brand)}</td><td class="n">${x.goods ? x.qty : "–"}</td><td class="n">${amt(x.value)}</td><td class="n">${amt(x.gst)}</td></tr>`).join("")}</tbody></table></div></div>
+    </div>
+    <div class="card">
+      <h3>Shopify's tax figure vs the correct one</h3>
+      <div class="stats">
+        <div><span class="eyebrow">GST per Shopify</span><span class="num">${inr(t.shopTax)}</span></div>
+        <div><span class="eyebrow">Correct GST</span><span class="num">${inr(t.gst)}</span></div>
+        <div><span class="eyebrow">Difference</span><span class="num">${inr(diff)}</span><span class="small muted">${diff < 0 ? "you owe less than Shopify shows" : diff > 0 ? "you owe more than Shopify shows" : "they match"}</span></div>
+      </div>
+      <p class="small muted">Prices include GST, so customers paid the same either way. Don't file from Shopify's Taxes report until its tax settings are fixed (home state, ${pct(st.lowRate)} apparel override, tax on shipping).</p>
+    </div>`;
+  const lb = $("#lockBtn"); if (lb) lb.onclick = () => { S.confirm = "lock"; renderOverview(); };
+  const ln = $("#lockNo"); if (ln) ln.onclick = () => { S.confirm = null; renderOverview(); };
+  const ly = $("#lockYes"); if (ly) ly.onclick = async () => {
+    const p = { month: r.month, prefix: r.prefix, firstNo: r.startNo, lastNo: r.lastNo, count: r.invoices.length, orders: r.invoices.map(i => i.name),
+      taxable: t.taxable / 100, gst: t.gst / 100, igst: t.igst / 100, cgst: t.cgst / 100, sgst: t.sgst / 100, invoiceValue: t.value / 100, lockedAt: new Date().toISOString() };
+    S.periods = S.periods.filter(x => x.month !== r.month).concat([p]); S.confirm = null;
+    if (await persist("periods")) { toast(`${name} locked`); changed(); }
+  };
+}
+
+// ---------- render: review ----------
+function renderReview() {
+  const el = $("#p-review"); const r = S.report;
+  if (!r) { el.innerHTML = `<p class="muted">Calculate a month first. Anything that needs a decision shows up here: unknown products, test-looking orders, edits and totals that don't match.</p>`; return; }
+  const items = r.flags.map(f => {
+    let act = "";
+    if (f.action === "dummy") act = `<button type="button" data-dummy="${esc(f.order)}">Mark as dummy</button>`;
+    if (f.kind === "hsn" && f.product) act = `<button type="button" data-goto="settings">Add HSN</button>`;
+    return `<div class="issue ${f.sev}"><span class="stripe"></span><div><p class="t">${esc(f.title)}</p><p class="small muted">${esc(f.text)}</p></div><div class="actions">${act}</div></div>`;
+  }).join("");
+  const exRows = r.excluded.map(x => `<tr><td>${esc(x.name)}<span class="sub">${esc(fmtDate(x.date))}</span></td><td>${esc(x.customer)}<span class="sub">${esc(x.state)}</span></td><td class="n">${amt(x.original)}</td><td><span class="pill ${x.manual ? "acc" : ""}">${esc(x.status)}</span></td><td class="small">${esc(x.reason)}</td><td>${x.manual ? `<button class="link" type="button" data-restore="${esc(x.name)}">Count as sale</button>` : ""}</td></tr>`).join("");
+  el.innerHTML = `
+    <div class="card"><div class="row" style="justify-content:space-between"><h3>Needs a look</h3><span class="small muted">Red: fix before filing · Amber: decide or note for the CA</span></div>
+      ${r.flags.length ? `<div class="issues">${items}</div>` : `<p class="note info">Nothing to review for ${esc(monthName(r.month))}.</p>`}</div>
+    <div class="card"><h3>Left out of sales (${r.excluded.length})</h3>
+      ${r.excluded.length ? `<div class="tbl"><table><thead><tr><th>Order</th><th>Customer</th><th class="n">Value</th><th>Status</th><th>Why</th><th></th></tr></thead><tbody>${exRows}</tbody></table></div>` : `<p class="muted">Every order this month counts as a sale.</p>`}
+      <p class="small muted">To drop any other order, use "Mark as dummy" on the Invoices tab. Dummy orders are remembered for every month.</p></div>`;
+}
+document.addEventListener("click", async e => {
+  const d = e.target.closest("[data-dummy]");
+  if (d) {
+    const name = d.dataset.dummy;
+    S.dummyList = S.dummyList.filter(x => x.order !== name).concat([{ order: name, reason: "Marked as a dummy order (not a real sale).", markedAt: new Date().toISOString() }]);
+    if (await persist("dummy")) { toast(`${name} left out as dummy`); changed(); }
+    return;
+  }
+  const rs = e.target.closest("[data-restore]");
+  if (rs) { const name = rs.dataset.restore; S.dummyList = S.dummyList.filter(x => x.order !== name); if (await persist("dummy")) { toast(`${name} counts as a sale again`); changed(); } }
+});
+
+// ---------- render: invoices & lines ----------
+function renderInvoices() {
+  const el = $("#p-invoices"); const r = S.report;
+  if (!r) { el.innerHTML = `<p class="muted">Calculate a month to see one row per tax invoice, numbered in date order.</p>`; return; }
+  const t = r.totals;
+  const rows = r.invoices.map(i => `<tr><td class="num">${esc(i.invNo)}<span class="sub">${esc(fmtDate(i.date))}</span></td><td>${esc(i.name)}<span class="sub">${esc(i.pay)}</span></td><td>${esc(i.customer)}<span class="sub">${esc(i.city)}</span></td><td>${esc(i.pos || "?")}<span class="sub">${i.inter ? "Inter-state" : "Intra-state"}</span></td>
+    <td class="n">${amt(i.tLow)}</td><td class="n">${amt(i.tHigh)}</td><td class="n">${amt(i.igst)}</td><td class="n">${amt(i.cgst + i.sgst)}</td><td class="n">${amt(i.value)}</td>
+    <td>${i.flags.map(f => `<span class="pill ${/mismatch|Unknown/.test(f) ? "bad" : /test|Edited/.test(f) ? "warn" : ""}">${esc(f)}</span>`).join(" ")}</td><td><button class="link" type="button" data-dummy="${esc(i.name)}">Mark as dummy</button></td></tr>`).join("");
+  el.innerHTML = `<div class="tbl tall"><table><thead><tr><th>Invoice</th><th>Shopify order</th><th>Customer</th><th>Place of supply</th><th class="n">Taxable @${pct(r.settings.lowRate)}</th><th class="n">Taxable @${pct(r.settings.highRate)}</th><th class="n">IGST</th><th class="n">CGST+SGST</th><th class="n">Invoice value</th><th>Notes</th><th></th></tr></thead>
+    <tbody>${rows}<tr class="total"><td>Total</td><td></td><td></td><td></td><td class="n">${amt(r.invoices.reduce((s, i) => s + i.tLow, 0))}</td><td class="n">${amt(r.invoices.reduce((s, i) => s + i.tHigh, 0))}</td><td class="n">${amt(t.igst)}</td><td class="n">${amt(t.cgst + t.sgst)}</td><td class="n">${amt(t.value)}</td><td></td><td></td></tr></tbody></table></div>`;
+}
+function renderLines() {
+  const el = $("#p-lines"); const r = S.report;
+  if (!r) { el.innerHTML = `<p class="muted">Calculate a month to see every item, shipping charge and tip with its HSN, rate and tax split.</p>`; return; }
+  const rows = r.lines.map(l => `<tr><td class="num">${esc(l.invNo)}<span class="sub">${esc(l.order)}</span></td><td>${esc(l.title)}<span class="sub">${esc([l.brand !== "-" ? l.brand : "", l.variant].filter(Boolean).join(" · "))}</span></td><td>${l.hsn ? `<span class="num">${esc(l.hsn)}</span>` : `<span class="pill warn">${l.kind === "Goods" ? "No HSN" : "–"}</span>`}</td>
+    <td class="n">${l.qty}</td><td class="n">${amt(l.net)}</td><td class="n">${amt(l.value)}</td><td class="n">${pct(l.rate)}</td><td class="n">${amt(l.taxable)}</td><td class="n">${amt(l.igst)}</td><td class="n">${amt(l.cgst)}</td><td class="n">${amt(l.sgst)}</td></tr>`).join("");
+  const t = r.totals;
+  el.innerHTML = `<div class="tbl tall"><table><thead><tr><th>Invoice</th><th>Item</th><th>HSN</th><th class="n">Qty</th><th class="n">Unit price</th><th class="n">Value</th><th class="n">Rate</th><th class="n">Taxable</th><th class="n">IGST</th><th class="n">CGST</th><th class="n">SGST</th></tr></thead>
+    <tbody>${rows}<tr class="total"><td>Total</td><td></td><td></td><td></td><td></td><td class="n">${amt(t.value)}</td><td></td><td class="n">${amt(t.taxable)}</td><td class="n">${amt(t.igst)}</td><td class="n">${amt(t.cgst)}</td><td class="n">${amt(t.sgst)}</td></tr></tbody></table></div>
+    <p class="small muted">Unit price is after discount and includes GST. Taxable value = value ÷ (1 + rate).</p>`;
+}
+
+// ---------- render: GSTR-1 / 3B ----------
+function renderGstr1() {
+  const el = $("#p-gstr1"); const r = S.report;
+  if (!r) { el.innerHTML = `<p class="muted">Calculate a month to get Table 7 (B2C small), Table 5 (B2C large), Table 12 (HSN) and Table 13 (documents), ready to key into the GST portal.</p>`; return; }
+  const sum = (a, k) => a.reduce((s, x) => s + x[k], 0);
+  el.innerHTML = `
+    <div class="card"><div class="row" style="justify-content:space-between"><h3>Table 7: B2C (small)</h3><span class="small muted">Type OE · no e-commerce GSTIN · cess 0</span></div>
+      <div class="tbl"><table><thead><tr><th>Place of supply</th><th class="n">Rate</th><th class="n">Taxable value</th><th class="n">IGST</th><th class="n">CGST</th><th class="n">SGST</th></tr></thead><tbody>
+      ${r.b2cs.map(x => `<tr><td>${esc(x.pos)}</td><td class="n">${pct(x.rate)}</td><td class="n">${amt(x.taxable)}</td><td class="n">${amt(x.igst)}</td><td class="n">${amt(x.cgst)}</td><td class="n">${amt(x.sgst)}</td></tr>`).join("")}
+      <tr class="total"><td>Total</td><td></td><td class="n">${amt(sum(r.b2cs, "taxable"))}</td><td class="n">${amt(sum(r.b2cs, "igst"))}</td><td class="n">${amt(sum(r.b2cs, "cgst"))}</td><td class="n">${amt(sum(r.b2cs, "sgst"))}</td></tr></tbody></table></div></div>
+    <div class="card"><h3>Table 5: B2C (large), inter-state invoices above ₹${nf.format(r.settings.b2clLimit).replace(".00", "")}</h3>
+      ${r.b2cl.length ? `<div class="tbl"><table><thead><tr><th>Invoice</th><th>Date</th><th>Place of supply</th><th class="n">Invoice value</th><th class="n">Rate</th><th class="n">Taxable</th><th class="n">IGST</th></tr></thead><tbody>${r.b2cl.flatMap(b => b.rates.map(x => `<tr><td class="num">${esc(b.invNo)}</td><td>${esc(fmtDate(b.date))}</td><td>${esc(b.pos)}</td><td class="n">${amt(b.value)}</td><td class="n">${pct(x.rate)}</td><td class="n">${amt(x.taxable)}</td><td class="n">${amt(x.igst)}</td></tr>`)).join("")}</tbody></table></div>` : `<p class="muted">None this month.</p>`}</div>
+    <div class="card"><div class="row" style="justify-content:space-between"><h3>Table 12: HSN summary (B2C)</h3><span class="small muted">Shipping and tips sit under the HSN of the item they came with</span></div>
+      <div class="tbl"><table><thead><tr><th>HSN</th><th>Description</th><th>UQC</th><th class="n">Qty</th><th class="n">Total value</th><th class="n">Rate</th><th class="n">Taxable</th><th class="n">IGST</th><th class="n">CGST</th><th class="n">SGST</th></tr></thead><tbody>
+      ${r.hsn.map(x => `<tr><td>${x.hsn === "MISSING" ? `<span class="pill bad">Missing</span>` : `<span class="num">${esc(x.hsn)}</span>`}</td><td>${esc(x.desc)}</td><td>${esc(x.uqc)}</td><td class="n">${x.qty}</td><td class="n">${amt(x.value)}</td><td class="n">${pct(x.rate)}</td><td class="n">${amt(x.taxable)}</td><td class="n">${amt(x.igst)}</td><td class="n">${amt(x.cgst)}</td><td class="n">${amt(x.sgst)}</td></tr>`).join("")}
+      <tr class="total"><td>Total</td><td></td><td></td><td class="n">${sum(r.hsn, "qty")}</td><td class="n">${amt(sum(r.hsn, "value"))}</td><td></td><td class="n">${amt(sum(r.hsn, "taxable"))}</td><td class="n">${amt(sum(r.hsn, "igst"))}</td><td class="n">${amt(sum(r.hsn, "cgst"))}</td><td class="n">${amt(sum(r.hsn, "sgst"))}</td></tr></tbody></table></div></div>
+    <div class="card"><h3>Table 13: documents issued</h3>
+      <div class="tbl"><table><thead><tr><th>Nature of document</th><th>From</th><th>To</th><th class="n">Total</th><th class="n">Cancelled</th><th class="n">Net issued</th></tr></thead><tbody>
+      <tr><td>Invoices for outward supply</td><td class="num">${esc(r.docs.from || "–")}</td><td class="num">${esc(r.docs.to || "–")}</td><td class="n">${r.docs.count}</td><td class="n">0</td><td class="n">${r.docs.count}</td></tr></tbody></table></div>
+      <p class="small muted">Test, cancelled and dummy orders never get an invoice number, so nothing shows as cancelled.</p></div>`;
+}
+function renderGstr3b() {
+  const el = $("#p-gstr3b"); const r = S.report;
+  if (!r) { el.innerHTML = `<p class="muted">Calculate a month to get the 3.1 and 3.2 figures for GSTR-3B.</p>`; return; }
+  const t = r.totals;
+  el.innerHTML = `
+    <div class="card"><h3>3.1 Outward supplies</h3><div class="tbl"><table><thead><tr><th>Nature of supplies</th><th class="n">Taxable value</th><th class="n">IGST</th><th class="n">CGST</th><th class="n">SGST</th><th class="n">Cess</th></tr></thead><tbody>
+      <tr><td>(a) Outward taxable supplies (other than zero rated, nil rated and exempted)</td><td class="n">${amt(t.taxable)}</td><td class="n">${amt(t.igst)}</td><td class="n">${amt(t.cgst)}</td><td class="n">${amt(t.sgst)}</td><td class="n">–</td></tr>
+      <tr><td>(b) Zero rated</td><td class="n">–</td><td class="n">–</td><td class="n">–</td><td class="n">–</td><td class="n">–</td></tr>
+      <tr><td>(c) Nil rated, exempted</td><td class="n">–</td><td class="n">–</td><td class="n">–</td><td class="n">–</td><td class="n">–</td></tr>
+      <tr><td>(d) Inward supplies liable to reverse charge</td><td colspan="5" class="muted small">CA fills this from expense invoices (for example, software or ads billed from abroad)</td></tr>
+      <tr><td>(e) Non-GST outward supplies</td><td class="n">${amt(t.nonGst)}</td><td class="n">–</td><td class="n">–</td><td class="n">–</td><td class="n">–</td></tr></tbody></table></div></div>
+    <div class="card"><h3>3.2 Of 3.1(a), inter-state supplies to unregistered persons</h3><div class="tbl"><table><thead><tr><th>Place of supply</th><th class="n">Taxable value</th><th class="n">IGST</th></tr></thead><tbody>
+      ${r.interByPos.map(x => `<tr><td>${esc(x.pos)}</td><td class="n">${amt(x.taxable)}</td><td class="n">${amt(x.igst)}</td></tr>`).join("")}
+      <tr class="total"><td>Total</td><td class="n">${amt(r.interByPos.reduce((s, x) => s + x.taxable, 0))}</td><td class="n">${amt(r.interByPos.reduce((s, x) => s + x.igst, 0))}</td></tr></tbody></table></div></div>
+    <p class="note info">Section 4 (input tax credit) comes from GSTR-2B and your purchase invoices: stock from MrBeast and Notice, packaging, courier, Razorpay fees, ads and apps. The CA nets it against the ${inr(t.gst)} above.</p>`;
+}
+
+// ---------- render: settings ----------
+function renderSettings() {
+  const el = $("#p-settings"); const st = S.settings; const r = S.report;
+  const unknown = r ? r.flags.filter(f => f.kind === "hsn" && f.product).map(f => f.product) : [];
+  const hsnRows = S.hsnList.slice().sort((a, b) => (a.category + a.product).localeCompare(b.category + b.product)).map(h => hsnRow(h, true)).join("");
+  const newRows = unknown.map(u => hsnRow({ product: u.title, category: u.category, hsn: "", rate: u.category === "Apparel" ? null : st.noticeRate, description: "", brand: u.vendor }, false)).join("");
+  const states = Object.entries(STATES).filter(([c], i, a) => a.findIndex(x => x[1][0] === STATES[c][0]) === i || c === st.homeState).sort((a, b) => a[1][1].localeCompare(b[1][1]));
+  el.innerHTML = `
+    <form class="card" id="setForm">
+      <div class="row" style="justify-content:space-between"><h3>Business and rates</h3><span class="small muted">Saved in your Shopify store. Changes apply to every month.</span></div>
+      <div class="form">
+        <div class="field"><label for="s-legal">Legal name</label><input type="text" id="s-legal" value="${esc(st.legalName)}" placeholder="As on the GST certificate"></div>
+        <div class="field"><label for="s-gstin">GSTIN</label><input type="text" id="s-gstin" value="${esc(st.gstin)}" maxlength="15" placeholder="15 characters"></div>
+        <div class="field"><label for="s-home">GST registered in</label><select id="s-home">${states.map(([c, v]) => `<option value="${c}"${c === st.homeState ? " selected" : ""}>${esc(v[1])} (${v[0]})</option>`).join("")}</select></div>
+        <div class="field"><label for="s-prefix">Invoice prefix ({FY} = 26-27)</label><input type="text" id="s-prefix" value="${esc(st.prefix)}"></div>
+        <div class="field"><label for="s-thr">Apparel limit per piece, before GST (₹)</label><input type="number" id="s-thr" value="${st.threshold}" min="0" step="1"></div>
+        <div class="field"><label for="s-low">Apparel rate up to limit (%)</label><input type="number" id="s-low" value="${st.lowRate}" min="0" step="0.25"></div>
+        <div class="field"><label for="s-high">Apparel rate above limit (%)</label><input type="number" id="s-high" value="${st.highRate}" min="0" step="0.25"></div>
+        <div class="field"><label for="s-notice">Notice / home decor rate (%)</label><input type="number" id="s-notice" value="${st.noticeRate}" min="0" step="0.25"></div>
+      </div>
+      <div class="row"><button class="primary" type="submit"${S.ready ? "" : " disabled"}>Save settings</button><span class="small muted">Invoice numbers must be at most 16 characters: ${esc(String(st.prefix).replace("{FY}", "26-27"))}0001 is ${String(st.prefix).replace("{FY}", "26-27").length + 4}.</span></div>
+    </form>
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><h3>HSN list</h3><span class="small muted">Matched to Shopify by product title. Apparel rates follow the price rule; other products use the rate here.</span></div>
+      ${newRows ? `<p class="note">New products from ${esc(monthName(r.month))} without an HSN code. Fill in the code and click Add.</p>` : ""}
+      <div class="tbl"><table><thead><tr><th>Product</th><th>Category</th><th>HSN</th><th>Rate %</th><th>Description</th><th></th></tr></thead><tbody>${newRows}${hsnRows || (newRows ? "" : `<tr><td colspan="6" class="muted">No products saved yet.</td></tr>`)}</tbody></table></div>
+    </div>
+    <div class="card"><h3>Locked months</h3>${lockedTable()}
+      ${S.periods.length ? `<div class="row">${S.periods.slice().sort((a, b) => a.month < b.month ? 1 : -1).map(p => S.confirm === "unlock:" + p.month ? `<span class="inline-confirm"><span class="small">Unlock ${esc(monthName(p.month))}? Numbers may change.</span><button class="danger" type="button" data-unlock-yes="${p.month}">Unlock</button><button type="button" data-unlock-no>Keep</button></span>` : `<button class="link" type="button" data-unlock="${p.month}">Unlock ${esc(monthName(p.month))}</button>`).join("")}</div>` : ""}</div>`;
+  $("#setForm").onsubmit = async e => {
+    e.preventDefault();
+    const n = (id, d) => { const v = Number($(id).value); return Number.isFinite(v) ? v : d; };
+    S.settings = { legalName: $("#s-legal").value.trim(), gstin: $("#s-gstin").value.trim().toUpperCase(), homeState: $("#s-home").value, prefix: $("#s-prefix").value.trim() || DEFAULT_SETTINGS.prefix,
+      threshold: n("#s-thr", 2500), lowRate: n("#s-low", 5), highRate: n("#s-high", 18), noticeRate: n("#s-notice", 18), b2clLimit: st.b2clLimit || 100000 };
+    if (await persist("settings")) { toast("Settings saved"); changed(); }
+  };
+}
+function hsnRow(d, saved) {
+  return `<tr data-product="${esc(d.product)}" data-saved="${saved ? 1 : 0}">
+    <td>${esc(d.product)}${d.brand ? `<span class="sub">${esc(d.brand)}</span>` : ""}</td>
+    <td><select aria-label="Category for ${esc(d.product)}" data-f="category"><option${d.category === "Apparel" ? " selected" : ""}>Apparel</option><option${d.category !== "Apparel" ? " selected" : ""}>Home Decor</option></select></td>
+    <td><input class="hsn-in num" aria-label="HSN for ${esc(d.product)}" type="text" data-f="hsn" value="${esc(d.hsn || "")}" maxlength="8" inputmode="numeric"></td>
+    <td><input class="rate-in" aria-label="Rate for ${esc(d.product)}" type="number" data-f="rate" value="${d.category === "Apparel" || d.rate == null ? "" : esc(d.rate)}" placeholder="${d.category === "Apparel" ? "by price" : ""}" step="0.25"></td>
+    <td><input class="desc-in" aria-label="Description for ${esc(d.product)}" type="text" data-f="description" value="${esc(d.description || "")}"></td>
+    <td><div class="row"><button type="button" data-hsn-save>${saved ? "Save" : "Add"}</button>${saved ? `<button class="link danger" type="button" data-hsn-del>Remove</button>` : ""}</div></td></tr>`;
+}
+document.addEventListener("click", async e => {
+  const sv = e.target.closest("[data-hsn-save]");
+  if (sv) {
+    const tr = sv.closest("tr"); const g = f => tr.querySelector(`[data-f="${f}"]`).value.trim();
+    const product = tr.dataset.product; const category = g("category"); const rateRaw = g("rate");
+    const prev = S.hsnList.find(h => normTitle(h.product) === normTitle(product)) || {};
+    const entry = { ...prev, product, category, hsn: g("hsn").replace(/\D/g, ""), rate: category === "Apparel" || rateRaw === "" ? null : Number(rateRaw), description: g("description") };
+    S.hsnList = S.hsnList.filter(h => normTitle(h.product) !== normTitle(product)).concat([entry]);
+    if (await persist("hsn")) { toast(`HSN saved for ${product}`); changed(); }
+    return;
+  }
+  const dl = e.target.closest("[data-hsn-del]");
+  if (dl) { const product = dl.closest("tr").dataset.product; S.hsnList = S.hsnList.filter(h => normTitle(h.product) !== normTitle(product)); if (await persist("hsn")) { toast(`Removed ${product}`); changed(); } return; }
+  const ul = e.target.closest("[data-unlock]"); if (ul) { S.confirm = "unlock:" + ul.dataset.unlock; renderSettings(); return; }
+  const un = e.target.closest("[data-unlock-no]"); if (un) { S.confirm = null; renderSettings(); return; }
+  const uy = e.target.closest("[data-unlock-yes]");
+  if (uy) { const m = uy.dataset.unlockYes; S.confirm = null; S.periods = S.periods.filter(p => p.month !== m); if (await persist("periods")) { toast(`${monthName(m)} unlocked`); changed(); } }
+});
+
+function renderAll() {
+  renderOverview(); renderReview(); renderInvoices(); renderLines(); renderGstr1(); renderGstr3b(); renderSettings();
+  $("#xlsxBtn").disabled = !S.report;
+  if (S.report) statusLine();
+}
+
+// ---------- Excel ----------
+$("#xlsxBtn").addEventListener("click", () => {
+  const r = S.report; if (!r) return;
+  if (typeof XLSX === "undefined") { setStatus(`<span class="msg">The Excel library didn't load. Reload the app and try again.</span>`, "err"); return; }
+  const st = r.settings, t = r.totals, rs = p => Math.round(p) / 100;
+  const wb = XLSX.utils.book_new();
+  const sheet = (name, rows, widths, numCols) => {
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    ws["!cols"] = widths.map(w => ({ wch: w }));
+    const range = XLSX.utils.decode_range(ws["!ref"]);
+    for (let R = 0; R <= range.e.r; R++) for (const C of numCols || []) { const c = ws[XLSX.utils.encode_cell({ r: R, c: C })]; if (c && c.t === "n") c.z = "#,##0.00"; }
+    XLSX.utils.book_append_sheet(wb, ws, name);
+  };
+  sheet("Summary", [
+    [`${S.shop ? S.shop.name : "The Islands"}: GST working, ${monthName(r.month)}`], [`Built by Islands GST Desk from Shopify orders on ${new Date().toLocaleString("en-IN")}. All amounts in ₹.`], [],
+    ["Legal name", st.legalName || "(fill in)"], ["GSTIN", st.gstin || "(fill in)"], ["GST registered in", STATES[st.homeState] ? STATES[st.homeState][1] : st.homeState], [],
+    ["Shopify orders in the month", S.orders.length], ["Tax invoices", t.invoices], ["Left out (test / cancelled / voided / dummy)", r.excluded.length],
+    ["Invoice range", `${r.docs.from} to ${r.docs.to}`], [],
+    ["Invoice value incl. GST", rs(t.value)], ["Discounts given", rs(t.discount)], ["Taxable value", rs(t.taxable)], ["IGST", rs(t.igst)], ["CGST", rs(t.cgst)], ["SGST", rs(t.sgst)],
+    ["Total GST before input credit", rs(t.gst)], ["Collected per Shopify", rs(t.collected)], ["GST shown by Shopify (wrong; for reference)", rs(t.shopTax)], [],
+    ["By rate", "Taxable", "GST", "Incl. GST"], ...r.byRate.map(x => [pct(x.rate), rs(x.taxable), rs(x.gst), rs(x.value)]), [],
+    ["By brand", "Units", "Incl. GST", "Taxable", "GST"], ...r.byBrand.map(x => [x.brand, x.goods ? x.qty : "", rs(x.value), rs(x.taxable), rs(x.gst)]), [],
+    ["Rules used"], [`Apparel: ${st.lowRate}% when price per piece before GST is ₹${st.threshold} or less after discount, ${st.highRate}% above.`],
+    [`Notice / home decor: ${st.noticeRate}% unless the HSN list gives another rate.`], ["Shipping and tips: taxed at the highest rate in the order (composite supply)."],
+    ["Place of supply = delivery state. Same state as the GSTIN → CGST + SGST, else IGST. Prices include GST: taxable = value ÷ (1 + rate)."]
+  ], [46, 16, 16, 16, 16], [1, 2, 3, 4]);
+  sheet("Invoice Register", [["Invoice No", "Invoice Date", "Shopify Order", "Customer", "City", "Place of Supply", "Supply Type", `Taxable @${st.lowRate}%`, `Taxable @${st.highRate}%`, "Total Taxable", "IGST", "CGST", "SGST", "Total GST", "Invoice Value", "Collected per Shopify", "Payment", "Fulfilment", "Notes"],
+    ...r.invoices.map(i => [i.invNo, i.date, i.name, i.customer, i.city, i.pos, i.inter ? "Inter-state" : "Intra-state", rs(i.tLow), rs(i.tHigh), rs(i.taxable), rs(i.igst), rs(i.cgst), rs(i.sgst), rs(i.gst), rs(i.value), rs(i.total), i.pay, i.ful, i.flags.join("; ")]),
+    ["TOTAL", "", "", "", "", "", "", rs(r.invoices.reduce((s, i) => s + i.tLow, 0)), rs(r.invoices.reduce((s, i) => s + i.tHigh, 0)), rs(t.taxable), rs(t.igst), rs(t.cgst), rs(t.sgst), rs(t.gst), rs(t.value), rs(t.collected)]],
+    [16, 12, 21, 22, 15, 20, 11, 13, 13, 13, 11, 11, 11, 11, 13, 13, 18, 16, 30], [7, 8, 9, 10, 11, 12, 13, 14, 15]);
+  sheet("Sales Register", [["Invoice No", "Date", "Shopify Order", "Customer", "Place of Supply", "Supply Type", "Brand", "Product", "Variant", "SKU", "Line Type", "HSN", "Qty", "MRP / unit", "Price / unit after discount", "Line Value", "GST Rate %", "Taxable Value", "IGST", "CGST", "SGST", "GST per Shopify"],
+    ...r.lines.map(l => [l.invNo, l.date, l.order, l.customer, l.pos, l.inter ? "Inter-state" : "Intra-state", l.brand, l.title, l.variant, l.sku, l.kind, l.hsn, l.qty, rs(l.mrp), rs(l.net), rs(l.value), l.rate, rs(l.taxable || 0), rs(l.igst || 0), rs(l.cgst || 0), rs(l.sgst || 0), rs(l.shopTax || 0)]),
+    ["TOTAL", "", "", "", "", "", "", "", "", "", "", "", "", "", "", rs(t.value), "", rs(t.taxable), rs(t.igst), rs(t.cgst), rs(t.sgst), rs(t.shopTax)]],
+    [16, 11, 21, 22, 20, 11, 10, 28, 14, 24, 9, 8, 5, 11, 12, 12, 9, 12, 10, 10, 10, 12], [13, 14, 15, 17, 18, 19, 20, 21]);
+  sheet("GSTR-1 B2CS", [["Type", "Place Of Supply", "Rate", "Applicable % of Tax Rate", "Taxable Value", "Cess Amount", "E-Commerce GSTIN", "IGST", "CGST", "SGST"],
+    ...r.b2cs.map(x => ["OE", x.pos, x.rate, "", rs(x.taxable), 0, "", rs(x.igst), rs(x.cgst), rs(x.sgst)])], [6, 26, 6, 12, 14, 10, 14, 12, 12, 12], [4, 5, 7, 8, 9]);
+  sheet("GSTR-1 B2CL", [["Invoice Number", "Invoice date", "Invoice Value", "Place Of Supply", "Applicable % of Tax Rate", "Rate", "Taxable Value", "Cess Amount", "E-Commerce GSTIN", "IGST"],
+    ...r.b2cl.flatMap(b => b.rates.map(x => [b.invNo, b.date, rs(b.value), b.pos, "", x.rate, rs(x.taxable), 0, "", rs(x.igst)]))], [16, 12, 14, 26, 12, 6, 14, 10, 14, 12], [2, 6, 7, 9]);
+  sheet("GSTR-1 HSN", [["HSN", "Description", "UQC", "Total Quantity", "Total Value", "Rate", "Taxable Value", "Integrated Tax Amount", "Central Tax Amount", "State/UT Tax Amount", "Cess Amount"],
+    ...r.hsn.map(x => [x.hsn, x.desc, x.uqc, x.qty, rs(x.value), x.rate, rs(x.taxable), rs(x.igst), rs(x.cgst), rs(x.sgst), 0])], [10, 40, 14, 10, 14, 6, 14, 14, 14, 14, 10], [4, 6, 7, 8, 9, 10]);
+  sheet("GSTR-1 Docs", [["Nature of Document", "Sr. No. From", "Sr. No. To", "Total Number", "Cancelled", "Net Issued"], ["Invoices for outward supply", r.docs.from, r.docs.to, r.docs.count, 0, r.docs.count]], [30, 16, 16, 12, 10, 10], []);
+  sheet("GSTR-3B", [["3.1 Nature of supplies", "Total Taxable Value", "IGST", "CGST", "SGST", "Cess"],
+    ["(a) Outward taxable supplies (other than zero rated, nil rated and exempted)", rs(t.taxable), rs(t.igst), rs(t.cgst), rs(t.sgst), 0],
+    ["(b) Zero rated", 0, 0, 0, 0, 0], ["(c) Nil rated, exempted", 0, 0, 0, 0, 0], ["(d) Inward supplies liable to reverse charge", "CA to fill"], ["(e) Non-GST outward supplies", rs(t.nonGst), 0, 0, 0, 0], [],
+    ["3.2 Inter-state supplies to unregistered persons: Place of Supply", "Taxable Value", "IGST"], ...r.interByPos.map(x => [x.pos, rs(x.taxable), rs(x.igst)]), [],
+    ["4. Eligible ITC: CA to fill from GSTR-2B and purchase invoices"]], [66, 16, 14, 14, 14, 8], [1, 2, 3, 4, 5]);
+  sheet("Excluded Orders", [["Shopify Order", "Date", "Customer", "State", "Order Value", "Status", "Why it's left out"],
+    ...r.excluded.map(x => [x.name, x.date, x.customer, x.state, rs(x.original), x.status, x.reason])], [21, 11, 22, 7, 12, 16, 80], [4]);
+  sheet("Review Notes", [["Severity", "Item", "Detail"], ...r.flags.map(f => [f.sev === "bad" ? "Fix" : f.sev === "warn" ? "Check" : "Note", f.title, f.text])], [9, 60, 100], []);
+  const blob = new Blob([XLSX.write(wb, { bookType: "xlsx", type: "array" })], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a"); a.href = url; a.download = `The_Islands_GST_${r.month}.xlsx`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+  toast("Excel downloaded");
+});
+
+// ---------- boot ----------
+if (/^#(overview|review|invoices|lines|gstr1|gstr3b|settings)$/.test(location.hash)) showTab(location.hash.slice(1));
+renderAll();
+if (S.inShopify) calculate();
+else setStatus(`<span class="msg">Open this app from Apps in your Shopify admin. It reads orders through Shopify, so it can't run on its own.</span>`, "err");
+</script>
+</body>
+</html>
