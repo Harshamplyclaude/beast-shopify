@@ -1,0 +1,29 @@
+# Islands GST Desk: Shopify app configuration.
+# Before deploying, fill in client_id (Dev Dashboard → your app → Settings) and replace
+# REPLACE-WITH-YOUR-HOST with the address where the web/ folder is hosted. See README.md.
+
+client_id = "REPLACE_WITH_CLIENT_ID"
+name = "Islands GST Desk"
+application_url = "https://REPLACE-WITH-YOUR-HOST/"
+embedded = true
+
+[build]
+include_config_on_deploy = true
+
+[access_scopes]
+# Orders for the GST calculation, products for product type (apparel vs home decor).
+scopes = "read_orders,read_products"
+
+[access.admin]
+# The page calls the Admin API straight from the browser through App Bridge, so the app needs no server.
+direct_api_mode = "online"
+embedded_app_direct_api_access = true
+
+[auth]
+redirect_urls = [ "https://REPLACE-WITH-YOUR-HOST/" ]
+
+[webhooks]
+api_version = "2026-07"
+
+[pos]
+embedded = false
