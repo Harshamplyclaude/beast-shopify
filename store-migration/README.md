@@ -34,14 +34,41 @@ it needs is on branch `claude/sleepy-mayer-bqk93w`.
 Blocked for the connector (owner does these in admin): checkout branding,
 policies (text in `policies.md`), publishing the theme.
 
+## Tees copied from mrbeaststore.in, 6 Nov 2026
+
+- Source: `https://mrbeaststore.in/products.json?limit=250`, raw copy in
+  `mrbeaststore-products.json` (29 products, one page).
+- **29 of 29 created**, none skipped, none failed: 16 adult tees and 13 kids
+  tees, 340 variants, 498 images. None of the source handles matched the 6
+  existing hoodies, so nothing was skipped. Created with `productSet`, keeping
+  the source title, handle, description, vendor (MrBeast), type (T-Shirt), tags,
+  options (Size / Color), prices, SKUs, weights (200 g, or 100 g for the Split
+  Tee) and image alt text. Each variant has its colour image. The source has
+  none for 3 variants, Neon Panther Tee White L/XL/XXL, so those have none here
+  either. No source variant has a compare-at price.
+- All 29 are ACTIVE and published to the Online Store.
+- **Stock:** products.json has no stock counts. All 340 source variants showed
+  as available, so every tee variant is **untracked** (inventory tracking off,
+  policy DENY) and stays buyable. **The owner must enter real stock counts**
+  (turn on tracking per variant and set quantities at the Delhi location), or
+  the tees can oversell.
+- Collections (smart, published):
+  - `adults` "Adults", template `adults`: tag `Adults`. 22 products: the 16
+    adult tees plus the 6 hoodies/sweatshirt, which were already tagged
+    `Adults`.
+  - `kids` "Kids", template `kids`: tag `Kids`. 13 products.
+  - `best-sellers`: unchanged; the tees' vendor is MrBeast, so it now has 35
+    (6 hoodies + 29 tees).
+  - `hoodies`: unchanged, 6.
+- Theme, hoodies, menus, pages and shipping were not touched.
+
 ## Still to do in the new store
 
 1. Upload the theme as an unpublished theme; the owner publishes it.
-2. Products: the hoodies from `hoodies.json`, plus the tees from mrbeaststore.in
-   (export them first if that store can be connected; otherwise ask for a CSV).
-3. Collections with these handles (the theme links to them): `adults`, `kids`,
-   `best-sellers`, `hoodies`. Assign templates `collection.adults`,
-   `collection.kids`, `collection.bestsellers`, `collection.hoodies`.
+2. Products: done (6 hoodies, 29 tees). Still to do: real stock counts for the
+   tees.
+3. Collections: done (`adults`, `kids`, `best-sellers`, `hoodies` with their
+   templates).
 4. Menus with these handles: `main-menu-1` (Shop, Learn, Watch),
    `header-categories`, `footer-support`, `footer-company`.
 5. Pages: about, contact, faqs, shipping, returns-exchanges, track-your-order,
