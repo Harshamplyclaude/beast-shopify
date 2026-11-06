@@ -1,0 +1,142 @@
+Handle,Title,Body (HTML),Vendor,Product Category,Type,Tags,Published,Option1 Name,Option1 Value,Option1 Linked To,Option2 Name,Option2 Value,Option2 Linked To,Option3 Name,Option3 Value,Option3 Linked To,Variant SKU,Variant Grams,Variant Inventory Tracker,Variant Inventory Qty,Variant Inventory Policy,Variant Fulfillment Service,Variant Price,Variant Compare At Price,Variant Requires Shipping,Variant Taxable,Unit Price Total Measure,Unit Price Total Measure Unit,Unit Price Base Measure,Unit Price Base Measure Unit,Variant Barcodes,Image Src,Image Position,Image Alt Text,Gift Card,SEO Title,SEO Description,Google Shopping / Google Product Category,Google Shopping / Gender,Google Shopping / Age Group,Google Shopping / MPN,Google Shopping / Condition,Google Shopping / Custom Product,Google Shopping / Custom Label 0,Google Shopping / Custom Label 1,Google Shopping / Custom Label 2,Google Shopping / Custom Label 3,Google Shopping / Custom Label 4,Google: Custom Product (product.metafields.mm-google-shopping.custom_product),Product rating count (product.metafields.reviews.rating_count),Age group (product.metafields.shopify.age-group),Care instructions (product.metafields.shopify.care-instructions),Color (product.metafields.shopify.color-pattern),Fabric (product.metafields.shopify.fabric),Neckline (product.metafields.shopify.neckline),Sleeve length type (product.metafields.shopify.sleeve-length-type),Variant Image,Variant Weight Unit,Variant Tax Code,Cost per item,Status,Variant Packed Length,Variant Packed Width,Variant Packed Height,Variant Packed Dimension Unit
+mrbeast-hello-hoodie,MrBeast Hello Hoodie,"<p>Hello to you too. The MrBeast Hello Hoodie is an <strong>official MrBeast hoodie</strong> that is fun, bold and impossible to miss. A <strong>""Hello, my name is"" sticker graphic</strong> with pink graffiti ""MR BEAST"" lettering sits at the chest, while a <strong>large pink drip panther</strong> takes over the back, printed using <strong>puff printing</strong> for a soft, raised <strong>3D texture</strong>. Perfect for a <strong>house party</strong>, a <strong>street food market</strong>, or whenever the vibe calls for something playful.</p><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>The Details</strong></p><ul>
+<li>
+<strong>Fabric:</strong> <strong>100% cotton fleece</strong>, 350 GSM</li>
+<li>
+<strong>Fit:</strong> <strong>Oversized fit</strong> with a <strong>hood</strong>, <strong>kangaroo pocket</strong> and <strong>long sleeves</strong>
+</li>
+<li>
+<strong>Print:</strong> <strong>Direct-to-Film (DTF) print</strong> for long-lasting colour vibrancy</li>
+<li>
+<strong>Colour:</strong> <strong>Off White</strong>
+</li>
+</ul><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>Care</strong></p><p>Machine wash <strong>cold</strong> with like colours. <strong>Do not bleach</strong>, and <strong>do not iron directly on the print</strong>.</p><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>Authenticity &amp; Delivery</strong></p><ul>
+<li>
+<strong>Authentic MrBeast merchandise</strong> from the official MrBeast store in India.</li>
+<li>
+<strong>Pan-India delivery</strong>, 3-7 days after dispatch.</li>
+</ul>",MrBeast,,Hoodie,"Adults, Full Sleeve, Hoodies, MrBeast, Pre-order",true,Size,S,,Color,Off White,,,,,MBH-HELLO-S-OFFWHITE,600.0,shopify,100,continue,manual,2999.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-hello-hoodie-off-white-01.png?v=1793920916,1,"Official MrBeast Hello hoodie in off white, front view with the Hello sticker chest graphic",false,Official MrBeast Hello Hoodie,"Shop the official MrBeast Hello hoodie in India. 350 GSM cotton fleece, oversized fit, Hello sticker chest graphic and a puff-print drip panther back. Off White.",,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-hello-hoodie-off-white-01.png?v=1793920916,g,,,active,,,,
+mrbeast-hello-hoodie,,,,,,,,,M,,,Off White,,,,,MBH-HELLO-M-OFFWHITE,600.0,shopify,100,continue,manual,2999.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-hello-hoodie-off-white-02.png?v=1793920916,2,"Official MrBeast Hello hoodie in off white, back view with the pink drip panther",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-hello-hoodie-off-white-01.png?v=1793920916,g,,,,,,,
+mrbeast-hello-hoodie,,,,,,,,,L,,,Off White,,,,,MBH-HELLO-L-OFFWHITE,600.0,shopify,100,continue,manual,2999.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-hello-hoodie-off-white-03.png?v=1793920917,3,"Official MrBeast Hello hoodie in off white, worn, front",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-hello-hoodie-off-white-01.png?v=1793920916,g,,,,,,,
+mrbeast-hello-hoodie,,,,,,,,,XL,,,Off White,,,,,MBH-HELLO-XL-OFFWHITE,600.0,shopify,100,continue,manual,2999.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-hello-hoodie-off-white-04.png?v=1793920917,4,"Official MrBeast Hello hoodie in off white, worn, back",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-hello-hoodie-off-white-01.png?v=1793920916,g,,,,,,,
+mrbeast-hello-hoodie,,,,,,,,,XXL,,,Off White,,,,,MBH-HELLO-XXL-OFFWHITE,600.0,shopify,100,continue,manual,2999.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-hello-hoodie-off-white-01.png?v=1793920916,g,,,,,,,
+mrbeast-neon-panther-sweatshirt,MrBeast Neon Panther Sweatshirt,"<p>The MrBeast Neon Panther Sweatshirt is an <strong>official MrBeast sweatshirt</strong> you will reach for again and again. A full <strong>cyan Beast Panther</strong> with a <strong>hot pink lightning bolt</strong> at the chest, printed using <strong>high density printing</strong> for a thick, embossed finish you can see and feel. Great for <strong>meetups</strong>, <strong>fests</strong>, <strong>weekend hangouts</strong>, or a casual day out.</p><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>The Details</strong></p><ul>
+<li>
+<strong>Fabric:</strong> <strong>100% cotton fleece</strong>, 350 GSM</li>
+<li>
+<strong>Fit:</strong> <strong>Oversized fit</strong> with a <strong>crew neck</strong> and <strong>long sleeves</strong>
+</li>
+<li>
+<strong>Print:</strong> <strong>Direct-to-Film (DTF) print</strong> for long-lasting colour vibrancy</li>
+<li>
+<strong>Colours:</strong> <strong>Grey</strong> and <strong>Black</strong>
+</li>
+</ul><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>Care</strong></p><p>Machine wash <strong>cold</strong> with like colours. <strong>Do not bleach</strong>, and <strong>do not iron directly on the print</strong>.</p><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>Authenticity &amp; Delivery</strong></p><ul>
+<li>
+<strong>Authentic MrBeast merchandise</strong> from the official MrBeast store in India.</li>
+<li>
+<strong>Pan-India delivery</strong>, 3-7 days after dispatch.</li>
+</ul>",MrBeast,,Sweatshirt,"Adults, Full Sleeve, MrBeast, Pre-order, Sweatshirts",true,Size,S,,Color,Grey,,,,,MBS-NEONPANTHER-S-GREY,550.0,shopify,100,continue,manual,1800.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-grey-01.png?v=1793920956,1,"Official MrBeast Neon Panther sweatshirt in grey, front view",false,Official MrBeast Neon Panther Sweatshirt,"Shop the official MrBeast Neon Panther sweatshirt in India. 350 GSM cotton fleece, oversized fit, cyan Beast Panther with a pink bolt. In Grey and Black.",,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-grey-01.png?v=1793920956,g,,,active,,,,
+mrbeast-neon-panther-sweatshirt,,,,,,,,,M,,,Grey,,,,,MBS-NEONPANTHER-M-GREY,550.0,shopify,100,continue,manual,1800.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-grey-02.png?v=1793920956,2,"Official MrBeast Neon Panther sweatshirt in grey, worn, front",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-grey-01.png?v=1793920956,g,,,,,,,
+mrbeast-neon-panther-sweatshirt,,,,,,,,,L,,,Grey,,,,,MBS-NEONPANTHER-L-GREY,550.0,shopify,100,continue,manual,1800.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-black-01.png?v=1793920956,3,"Official MrBeast Neon Panther sweatshirt in black, front view",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-grey-01.png?v=1793920956,g,,,,,,,
+mrbeast-neon-panther-sweatshirt,,,,,,,,,XL,,,Grey,,,,,MBS-NEONPANTHER-XL-GREY,550.0,shopify,100,continue,manual,1800.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-black-02.png?v=1793920956,4,"Official MrBeast Neon Panther sweatshirt in black, worn, front",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-grey-01.png?v=1793920956,g,,,,,,,
+mrbeast-neon-panther-sweatshirt,,,,,,,,,XXL,,,Grey,,,,,MBS-NEONPANTHER-XXL-GREY,550.0,shopify,100,continue,manual,1800.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-grey-01.png?v=1793920956,g,,,,,,,
+mrbeast-neon-panther-sweatshirt,,,,,,,,,S,,,Black,,,,,MBS-NEONPANTHER-S-BLACK,550.0,shopify,100,continue,manual,1800.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-black-01.png?v=1793920956,g,,,,,,,
+mrbeast-neon-panther-sweatshirt,,,,,,,,,M,,,Black,,,,,MBS-NEONPANTHER-M-BLACK,550.0,shopify,100,continue,manual,1800.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-black-01.png?v=1793920956,g,,,,,,,
+mrbeast-neon-panther-sweatshirt,,,,,,,,,L,,,Black,,,,,MBS-NEONPANTHER-L-BLACK,550.0,shopify,100,continue,manual,1800.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-black-01.png?v=1793920956,g,,,,,,,
+mrbeast-neon-panther-sweatshirt,,,,,,,,,XL,,,Black,,,,,MBS-NEONPANTHER-XL-BLACK,550.0,shopify,100,continue,manual,1800.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-black-01.png?v=1793920956,g,,,,,,,
+mrbeast-neon-panther-sweatshirt,,,,,,,,,XXL,,,Black,,,,,MBS-NEONPANTHER-XXL-BLACK,550.0,shopify,100,continue,manual,1800.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-neon-panther-sweatshirt-black-01.png?v=1793920956,g,,,,,,,
+mrbeast-mecha-hoodie,MrBeast Mecha Hoodie,"<p>Half machine, half beast, entirely unforgettable. The MrBeast Mecha Hoodie is an <strong>official MrBeast hoodie</strong> with an <strong>armoured Beast Panther face</strong> beneath a bold ""BEAST"" wordmark and cyan Japanese text on the front, and a <strong>Beast claw graphic on the back</strong>. Both are printed using <strong>puff printing</strong> for a soft, raised <strong>3D texture</strong>. Perfect for <strong>gaming events</strong>, <strong>nights out</strong>, or any time you want a hoodie that stops people in their tracks.</p><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>The Details</strong></p><ul>
+<li>
+<strong>Fabric:</strong> <strong>100% cotton fleece</strong>, 350 GSM</li>
+<li>
+<strong>Fit:</strong> <strong>Oversized fit</strong> with a <strong>hood</strong>, <strong>kangaroo pocket</strong> and <strong>long sleeves</strong>
+</li>
+<li>
+<strong>Print:</strong> <strong>Direct-to-Film (DTF) print</strong> for long-lasting colour vibrancy</li>
+<li>
+<strong>Colour:</strong> <strong>Black</strong>
+</li>
+</ul><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>Care</strong></p><p>Machine wash <strong>cold</strong> with like colours. <strong>Do not bleach</strong>, and <strong>do not iron directly on the print</strong>.</p><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>Authenticity &amp; Delivery</strong></p><ul>
+<li>
+<strong>Authentic MrBeast merchandise</strong> from the official MrBeast store in India.</li>
+<li>
+<strong>Pan-India delivery</strong>, 3-7 days after dispatch.</li>
+</ul>",MrBeast,,Hoodie,"Adults, Full Sleeve, Hoodies, MrBeast, Pre-order",true,Size,S,,Color,Black,,,,,MBH-MECHA-S-BLACK,600.0,shopify,100,continue,manual,2999.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-mecha-hoodie-black-01.png?v=1793920984,1,"Official MrBeast Mecha hoodie in black, front view with the armoured Beast Panther",false,Official MrBeast Mecha Hoodie,"Shop the official MrBeast Mecha hoodie in India. 350 GSM cotton fleece, oversized fit, puff-print armoured panther on the front and a claw on the back. Black.",,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-mecha-hoodie-black-01.png?v=1793920984,g,,,active,,,,
+mrbeast-mecha-hoodie,,,,,,,,,M,,,Black,,,,,MBH-MECHA-M-BLACK,600.0,shopify,100,continue,manual,2999.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-mecha-hoodie-black-02.png?v=1793920984,2,"Official MrBeast Mecha hoodie in black, back view with the Beast claw graphic",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-mecha-hoodie-black-01.png?v=1793920984,g,,,,,,,
+mrbeast-mecha-hoodie,,,,,,,,,L,,,Black,,,,,MBH-MECHA-L-BLACK,600.0,shopify,100,continue,manual,2999.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-mecha-hoodie-black-03.png?v=1793920984,3,"Official MrBeast Mecha hoodie in black, worn, front",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-mecha-hoodie-black-01.png?v=1793920984,g,,,,,,,
+mrbeast-mecha-hoodie,,,,,,,,,XL,,,Black,,,,,MBH-MECHA-XL-BLACK,600.0,shopify,100,continue,manual,2999.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-mecha-hoodie-black-04.png?v=1793920984,4,"Official MrBeast Mecha hoodie in black, worn, back",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-mecha-hoodie-black-01.png?v=1793920984,g,,,,,,,
+mrbeast-mecha-hoodie,,,,,,,,,XXL,,,Black,,,,,MBH-MECHA-XXL-BLACK,600.0,shopify,100,continue,manual,2999.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-mecha-hoodie-black-01.png?v=1793920984,g,,,,,,,
+mrbeast-patch-hoodie,MrBeast Patch Hoodie,"<p>Clean, heavy and easy to wear. The MrBeast Patch Hoodie is an <strong>official MrBeast hoodie</strong> that keeps it simple: a small <strong>""BEAST"" patch at the chest</strong> on a heavyweight fleece base. It goes with everything, from <strong>college days</strong> to <strong>late-night drives</strong> and <strong>weekend layering</strong>.</p><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>The Details</strong></p><ul>
+<li>
+<strong>Fabric:</strong> <strong>100% cotton fleece</strong>, 350 GSM</li>
+<li>
+<strong>Fit:</strong> <strong>Oversized fit</strong> with a <strong>hood</strong>, <strong>kangaroo pocket</strong> and <strong>long sleeves</strong>
+</li>
+<li>
+<strong>Finish:</strong> <strong>""BEAST"" patch</strong> at the chest</li>
+<li>
+<strong>Colours:</strong> <strong>Off White</strong>, <strong>Grey</strong> and <strong>Black</strong>
+</li>
+</ul><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>Care</strong></p><p>Machine wash <strong>cold</strong> with like colours. <strong>Do not bleach</strong>, and <strong>do not iron directly on the patch</strong>.</p><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>Authenticity &amp; Delivery</strong></p><ul>
+<li>
+<strong>Authentic MrBeast merchandise</strong> from the official MrBeast store in India.</li>
+<li>
+<strong>Pan-India delivery</strong>, 3-7 days after dispatch.</li>
+</ul>",MrBeast,,Hoodie,"Adults, Full Sleeve, Hoodies, MrBeast, Pre-order",true,Size,S,,Color,Off White,,,,,MBH-PATCH-S-OFFWHITE,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-off-white-01.png?v=1793921036,1,"Official MrBeast Patch hoodie in off white, front view",false,Official MrBeast Patch Hoodie,"Shop the official MrBeast Patch hoodie in India. 350 GSM cotton fleece, oversized fit, with a small BEAST patch at the chest. In Off White, Grey and Black.",,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-off-white-01.png?v=1793921036,g,,,active,,,,
+mrbeast-patch-hoodie,,,,,,,,,M,,,Off White,,,,,MBH-PATCH-M-OFFWHITE,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-off-white-02.png?v=1793921036,2,"Official MrBeast Patch hoodie in off white, worn, front",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-off-white-01.png?v=1793921036,g,,,,,,,
+mrbeast-patch-hoodie,,,,,,,,,L,,,Off White,,,,,MBH-PATCH-L-OFFWHITE,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-grey-01.png?v=1793921036,3,"Official MrBeast Patch hoodie in grey, front view",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-off-white-01.png?v=1793921036,g,,,,,,,
+mrbeast-patch-hoodie,,,,,,,,,XL,,,Off White,,,,,MBH-PATCH-XL-OFFWHITE,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-grey-02.png?v=1793921036,4,"Official MrBeast Patch hoodie in grey, worn, front",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-off-white-01.png?v=1793921036,g,,,,,,,
+mrbeast-patch-hoodie,,,,,,,,,XXL,,,Off White,,,,,MBH-PATCH-XXL-OFFWHITE,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-black-01.png?v=1793921036,5,"Official MrBeast Patch hoodie in black, front view",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-off-white-01.png?v=1793921036,g,,,,,,,
+mrbeast-patch-hoodie,,,,,,,,,S,,,Grey,,,,,MBH-PATCH-S-GREY,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-black-02.png?v=1793921036,6,"Official MrBeast Patch hoodie in black, worn, front",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-grey-01.png?v=1793921036,g,,,,,,,
+mrbeast-patch-hoodie,,,,,,,,,M,,,Grey,,,,,MBH-PATCH-M-GREY,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-grey-01.png?v=1793921036,g,,,,,,,
+mrbeast-patch-hoodie,,,,,,,,,L,,,Grey,,,,,MBH-PATCH-L-GREY,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-grey-01.png?v=1793921036,g,,,,,,,
+mrbeast-patch-hoodie,,,,,,,,,XL,,,Grey,,,,,MBH-PATCH-XL-GREY,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-grey-01.png?v=1793921036,g,,,,,,,
+mrbeast-patch-hoodie,,,,,,,,,XXL,,,Grey,,,,,MBH-PATCH-XXL-GREY,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-grey-01.png?v=1793921036,g,,,,,,,
+mrbeast-patch-hoodie,,,,,,,,,S,,,Black,,,,,MBH-PATCH-S-BLACK,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-black-01.png?v=1793921036,g,,,,,,,
+mrbeast-patch-hoodie,,,,,,,,,M,,,Black,,,,,MBH-PATCH-M-BLACK,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-black-01.png?v=1793921036,g,,,,,,,
+mrbeast-patch-hoodie,,,,,,,,,L,,,Black,,,,,MBH-PATCH-L-BLACK,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-black-01.png?v=1793921036,g,,,,,,,
+mrbeast-patch-hoodie,,,,,,,,,XL,,,Black,,,,,MBH-PATCH-XL-BLACK,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-black-01.png?v=1793921036,g,,,,,,,
+mrbeast-patch-hoodie,,,,,,,,,XXL,,,Black,,,,,MBH-PATCH-XXL-BLACK,600.0,shopify,100,continue,manual,2199.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-patch-hoodie-black-01.png?v=1793921036,g,,,,,,,
+mrbeast-panther-bolt-hoodie,MrBeast Panther Bolt Hoodie,"<p>The MrBeast Panther Bolt Hoodie is an <strong>official MrBeast hoodie</strong> with the <strong>Beast Panther riding a cyan lightning bolt</strong> above a bold white <strong>""BEAST"" wordmark</strong> across the chest. Loud enough to stand out, simple enough to wear every day, from <strong>matchdays</strong> to <strong>meetups</strong> or a <strong>casual day out</strong>.</p><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>The Details</strong></p><ul>
+<li>
+<strong>Fabric:</strong> <strong>100% cotton fleece</strong>, 350 GSM</li>
+<li>
+<strong>Fit:</strong> <strong>Oversized fit</strong> with a <strong>hood</strong>, <strong>kangaroo pocket</strong> and <strong>long sleeves</strong>
+</li>
+<li>
+<strong>Print:</strong> <strong>Direct-to-Film (DTF) print</strong> for long-lasting colour vibrancy</li>
+<li>
+<strong>Colour:</strong> <strong>Black</strong>
+</li>
+</ul><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>Care</strong></p><p>Machine wash <strong>cold</strong> with like colours. <strong>Do not bleach</strong>, and <strong>do not iron directly on the print</strong>.</p><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>Authenticity &amp; Delivery</strong></p><ul>
+<li>
+<strong>Authentic MrBeast merchandise</strong> from the official MrBeast store in India.</li>
+<li>
+<strong>Pan-India delivery</strong>, 3-7 days after dispatch.</li>
+</ul>",MrBeast,,Hoodie,"Adults, Full Sleeve, Hoodies, MrBeast, Pre-order",true,Size,S,,Color,Black,,,,,MBH-PANTHERBOLT-S-BLACK,600.0,shopify,100,continue,manual,2500.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-panther-bolt-hoodie-black-01.png?v=1793921061,1,"Official MrBeast Panther Bolt hoodie in black, front view",false,Official MrBeast Panther Bolt Hoodie,"Shop the official MrBeast Panther Bolt hoodie in India. 350 GSM cotton fleece, oversized fit, Beast Panther on a cyan bolt over a BEAST wordmark. Black.",,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-panther-bolt-hoodie-black-01.png?v=1793921061,g,,,active,,,,
+mrbeast-panther-bolt-hoodie,,,,,,,,,M,,,Black,,,,,MBH-PANTHERBOLT-M-BLACK,600.0,shopify,100,continue,manual,2500.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-panther-bolt-hoodie-black-02.png?v=1793921061,2,"Official MrBeast Panther Bolt hoodie in black, worn, front",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-panther-bolt-hoodie-black-01.png?v=1793921061,g,,,,,,,
+mrbeast-panther-bolt-hoodie,,,,,,,,,L,,,Black,,,,,MBH-PANTHERBOLT-L-BLACK,600.0,shopify,100,continue,manual,2500.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-panther-bolt-hoodie-black-01.png?v=1793921061,g,,,,,,,
+mrbeast-panther-bolt-hoodie,,,,,,,,,XL,,,Black,,,,,MBH-PANTHERBOLT-XL-BLACK,600.0,shopify,100,continue,manual,2500.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-panther-bolt-hoodie-black-01.png?v=1793921061,g,,,,,,,
+mrbeast-panther-bolt-hoodie,,,,,,,,,XXL,,,Black,,,,,MBH-PANTHERBOLT-XXL-BLACK,600.0,shopify,100,continue,manual,2500.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-panther-bolt-hoodie-black-01.png?v=1793921061,g,,,,,,,
+mrbeast-varsity-hoodie,MrBeast Varsity Hoodie,"<p>The MrBeast Varsity Hoodie is an <strong>official MrBeast hoodie</strong> with a college-team feel: arched white <strong>""BEAST"" varsity lettering</strong> over a <strong>""01"" number plate</strong> on a <strong>sky blue</strong> base. Made for <strong>campus</strong>, <strong>travel days</strong> and <strong>cosy weekends</strong>.</p><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>The Details</strong></p><ul>
+<li>
+<strong>Fabric:</strong> <strong>100% cotton fleece</strong>, 350 GSM</li>
+<li>
+<strong>Fit:</strong> <strong>Oversized fit</strong> with a <strong>hood</strong>, <strong>kangaroo pocket</strong> and <strong>long sleeves</strong>
+</li>
+<li>
+<strong>Print:</strong> <strong>Direct-to-Film (DTF) print</strong> for long-lasting colour vibrancy</li>
+<li>
+<strong>Colour:</strong> <strong>Sky Blue</strong>
+</li>
+</ul><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>Care</strong></p><p>Machine wash <strong>cold</strong> with like colours. <strong>Do not bleach</strong>, and <strong>do not iron directly on the print</strong>.</p><p style=""font-size: calc(1em + 2px); margin: 1.6em 0 0.4em 0;""><strong>Authenticity &amp; Delivery</strong></p><ul>
+<li>
+<strong>Authentic MrBeast merchandise</strong> from the official MrBeast store in India.</li>
+<li>
+<strong>Pan-India delivery</strong>, 3-7 days after dispatch.</li>
+</ul>",MrBeast,,Hoodie,"Adults, Full Sleeve, Hoodies, MrBeast, Pre-order",true,Size,S,,Color,Sky Blue,,,,,MBH-VARSITY-S-SKYBLUE,600.0,shopify,100,continue,manual,2499.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-varsity-hoodie-sky-blue-01.png?v=1793921087,1,"Official MrBeast Varsity hoodie in sky blue, front view",false,Official MrBeast Varsity Hoodie,"Shop the official MrBeast Varsity hoodie in India. 350 GSM cotton fleece, oversized fit, with BEAST varsity lettering and a 01 number plate. In Sky Blue.",,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-varsity-hoodie-sky-blue-01.png?v=1793921087,g,,,active,,,,
+mrbeast-varsity-hoodie,,,,,,,,,M,,,Sky Blue,,,,,MBH-VARSITY-M-SKYBLUE,600.0,shopify,100,continue,manual,2499.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-varsity-hoodie-sky-blue-02.png?v=1793921087,2,"Official MrBeast Varsity hoodie in sky blue, worn, front",,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-varsity-hoodie-sky-blue-01.png?v=1793921087,g,,,,,,,
+mrbeast-varsity-hoodie,,,,,,,,,L,,,Sky Blue,,,,,MBH-VARSITY-L-SKYBLUE,600.0,shopify,100,continue,manual,2499.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-varsity-hoodie-sky-blue-01.png?v=1793921087,g,,,,,,,
+mrbeast-varsity-hoodie,,,,,,,,,XL,,,Sky Blue,,,,,MBH-VARSITY-XL-SKYBLUE,600.0,shopify,100,continue,manual,2499.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-varsity-hoodie-sky-blue-01.png?v=1793921087,g,,,,,,,
+mrbeast-varsity-hoodie,,,,,,,,,XXL,,,Sky Blue,,,,,MBH-VARSITY-XXL-SKYBLUE,600.0,shopify,100,continue,manual,2499.00,,true,true,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,https://cdn.shopify.com/s/files/1/0765/6701/9676/files/mrbeast-varsity-hoodie-sky-blue-01.png?v=1793921087,g,,,,,,,
