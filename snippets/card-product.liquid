@@ -126,6 +126,7 @@
                 </a>
               </h3>
             </div>
+            {%- capture is_preorder -%}{%- render 'beast-preorder', product: card_product, part: 'flag' -%}{%- endcapture -%}
             <div class="card__badge {{ settings.badge_position }}">
               {%- if card_product.available == false -%}
                 <span
@@ -133,6 +134,13 @@
                   class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
                 >
                   {{- 'products.product.sold_out' | t -}}
+                </span>
+              {%- elsif is_preorder == 'true' -%}
+                <span
+                  id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
+                  class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
+                >
+                  {{- settings.preorder_button_label | default: 'Pre-order' | escape -}}
                 </span>
               {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
                 <span
@@ -550,6 +558,7 @@
               </div>
             {% endif %}
           {% endif %}
+          {%- capture is_preorder -%}{%- render 'beast-preorder', product: card_product, part: 'flag' -%}{%- endcapture -%}
           <div class="card__badge {{ settings.badge_position }}">
             {%- if card_product.available == false -%}
               <span
@@ -557,6 +566,13 @@
                 class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
               >
                 {{- 'products.product.sold_out' | t -}}
+              </span>
+            {%- elsif is_preorder == 'true' -%}
+              <span
+                id="Badge-{{ section_id }}-{{ card_product.id }}"
+                class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
+              >
+                {{- settings.preorder_button_label | default: 'Pre-order' | escape -}}
               </span>
             {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
               <span

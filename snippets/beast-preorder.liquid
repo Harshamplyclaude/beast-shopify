@@ -1,0 +1,33 @@
+{%- comment -%}
+  Pre-order helper. Products tagged with the pre-order tag (Theme settings >
+  Pre-orders) sell as pre-orders.
+  part: 'flag' - outputs "true" when the product carries the tag.
+  part: 'note' - outputs the ship message: "Ships from 12 November" until the
+  ship date, then "Ships in 7 days".
+{%- endcomment -%}
+{%- liquid
+  if part == 'flag'
+    assign preorder_tag = settings.preorder_tag | strip | downcase
+    if preorder_tag != blank
+      for tag in product.tags
+        assign tag_down = tag | strip | downcase
+        if tag_down == preorder_tag
+          echo 'true'
+          break
+        endif
+      endfor
+    endif
+  elsif part == 'note'
+    assign ship_date = settings.preorder_ship_date | strip
+    assign message = settings.preorder_message_after
+    if ship_date != blank
+      assign today = 'now' | date: '%Y%m%d' | plus: 0
+      assign ship_day = ship_date | date: '%Y%m%d' | plus: 0
+      if today < ship_day
+        assign ship_label = ship_date | date: '%-d %B'
+        assign message = settings.preorder_message_before | replace: '[date]', ship_label
+      endif
+    endif
+    echo message | strip
+  endif
+-%}

@@ -70,11 +70,19 @@
               assign quantity_rule_soldout = true
             endif
           -%}
+          {%- capture is_preorder -%}{%- render 'beast-preorder', product: product, part: 'flag' -%}{%- endcapture -%}
+          {%- if is_preorder == 'true' -%}
+            {%- capture preorder_note -%}{%- render 'beast-preorder', part: 'note' -%}{%- endcapture -%}
+            <input type="hidden" name="properties[Pre-order]" value="{{ preorder_note | escape }}">
+          {%- endif -%}
           <button
             id="ProductSubmitButton-{{ section_id }}"
             type="submit"
             name="add"
             class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+            {% if is_preorder == 'true' and settings.preorder_button_label != blank %}
+              data-add-label="{{ settings.preorder_button_label | escape }}"
+            {% endif %}
             {% if product.selected_or_first_available_variant.available == false
               or quantity_rule_soldout
               or product.selected_or_first_available_variant == null
@@ -87,6 +95,8 @@
                 {{ 'products.product.unavailable' | t }}
               {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
                 {{ 'products.product.sold_out' | t }}
+              {%- elsif is_preorder == 'true' and settings.preorder_button_label != blank -%}
+                {{ settings.preorder_button_label | escape }}
               {%- else -%}
                 {{ 'products.product.add_to_cart' | t }}
               {%- endif -%}
@@ -97,6 +107,9 @@
             {{ form | payment_button }}
           {%- endif -%}
         </div>
+        {%- if is_preorder == 'true' and preorder_note != blank -%}
+          <p class="beast-preorder-note">{{ preorder_note | escape }}</p>
+        {%- endif -%}
       {%- endform -%}
     </product-form>
   {%- else -%}

@@ -1202,3 +1202,12 @@ h1.product__title,
   .rte table td,
   .rte table th { padding: .7em .45em; }
 }
+
+
+/* --- Pre-order note under the PDP button ---------------------------------- */
+.beast-preorder-note {
+  margin: 12px 0 0;
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: .02em;
+}

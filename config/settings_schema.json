@@ -18,7 +18,7 @@
       {
         "type": "text",
         "id": "logo_asset",
-        "label": "Logo \u2014 theme asset",
+        "label": "Logo — theme asset",
         "info": "Filename in assets/, e.g. beast-logo.png. Used only when no Logo image is picked above."
       },
       {
@@ -1470,6 +1470,47 @@
         "id": "customer_account_menu",
         "default": "customer-account-main-menu",
         "label": "t:settings_schema.customer_accounts.settings.customer_account_menu.label"
+      }
+    ]
+  },
+  {
+    "name": "Pre-orders",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Tag a product with the tag below to sell it as a pre-order: its button reads Pre-order, the ship message shows under the button and on the cart line, and product cards get a badge. Also turn on \"Continue selling when out of stock\" for its variants, or it will show as sold out."
+      },
+      {
+        "type": "text",
+        "id": "preorder_tag",
+        "label": "Product tag",
+        "default": "pre-order"
+      },
+      {
+        "type": "text",
+        "id": "preorder_button_label",
+        "label": "Button and badge label",
+        "default": "Pre-order"
+      },
+      {
+        "type": "text",
+        "id": "preorder_ship_date",
+        "label": "Ships from date",
+        "default": "2026-11-12",
+        "info": "YYYY-MM-DD. The first message shows until this date, the second after it."
+      },
+      {
+        "type": "text",
+        "id": "preorder_message_before",
+        "label": "Message before the date",
+        "default": "Ships from [date]",
+        "info": "[date] becomes the date above, e.g. 12 November."
+      },
+      {
+        "type": "text",
+        "id": "preorder_message_after",
+        "label": "Message after the date",
+        "default": "Ships in 7 days"
       }
     ]
   }
