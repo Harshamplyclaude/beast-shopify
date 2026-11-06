@@ -13,7 +13,7 @@ it needs is on branch `claude/sleepy-mayer-bqk93w`.
     after, the note is added as a cart line property, and cards show a badge.
     Settings: Theme settings > Pre-orders.
 - **Hoodies:** `hoodies.json` (API import) and `hoodies-mrbeast-india.csv` (manual
-  Shopify import). 5 hoodies + 1 sweatshirt, 50 variants, cleaned of Islands
+  Shopify import). 5 hoodies + 1 sweatshirt, 45 variants, cleaned of Islands
   branding, inventory policy CONTINUE, tagged `Pre-order`.
 
 ## Done in My Store 2 (3xiikx-bi.myshopify.com), 6 Nov 2026
