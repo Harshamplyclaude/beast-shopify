@@ -16,6 +16,24 @@ it needs is on branch `claude/sleepy-mayer-bqk93w`.
   Shopify import). 5 hoodies + 1 sweatshirt, 50 variants, cleaned of Islands
   branding, inventory policy CONTINUE, tagged `Pre-order`.
 
+## Done in My Store 2 (3xiikx-bi.myshopify.com), 6 Nov 2026
+
+- Theme "Beast Store 2.0 - v31" (unpublished): the uploaded v30 plus the 7 v31
+  files; checksums match the repo.
+- 6 hoodie/sweatshirt products created from `hoodies.json`, active, on the
+  Online Store, inventory policy CONTINUE, 100 units each at the Delhi location.
+- Collections: `hoodies` (tag Hoodies or Sweatshirts, template hoodies) and
+  `best-sellers` (vendor contains MrBeast/Beast, sorted best-selling, template
+  bestsellers).
+- Menus: main-menu-1, header-categories, footer-support, footer-company.
+- Pages: about, faqs, authenticity, shipping, returns-exchanges,
+  track-your-order, size-guide, reseller-policy, accessibility, contact
+  (updated, template contact), contact-us, philanthropy (template philanthropy).
+- Shipping: India, Standard Rs 100 up to Rs 998.99, Free from Rs 999.
+
+Blocked for the connector (owner does these in admin): checkout branding,
+policies (text in `policies.md`), publishing the theme.
+
 ## Still to do in the new store
 
 1. Upload the theme as an unpublished theme; the owner publishes it.
